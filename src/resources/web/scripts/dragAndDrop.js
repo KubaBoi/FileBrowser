@@ -15,8 +15,8 @@ function dragStart(e) {
 function dragEnter(e) {
     levitation = 0;
     e.preventDefault();
-    //if (e.target.classList.contains("folder"))
-        //e.target.classList.add("dragOver");
+    if (e.target.classList.contains("folder"))
+        e.target.classList.add("dragOver");
 }
 
 var levitation = 0;
