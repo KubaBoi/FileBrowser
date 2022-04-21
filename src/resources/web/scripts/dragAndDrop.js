@@ -26,7 +26,12 @@ function dragOver(e) {
         levitation++;
         e.target.classList.add("dragOver");
         if (levitation >= 50) {
-            moveIn(e.target.innerHTML);
+            if (e.target.innerHTML != "..") {
+                moveIn(e.target.innerHTML);
+            }
+            else {
+                moveUp();
+            }
             levitation = 0;
         }
     }
