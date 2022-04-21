@@ -15,8 +15,6 @@ from python.authorization import Authorization
 
 #REST CONTROLLERS
 from python.controllers.mainController import MainController
-from python.controllers.moveController import MoveController
-from python.controllers.treeController import TreeController
 
 
 """
@@ -42,35 +40,22 @@ class CheeseHandler(BaseHTTPRequestHandler):
             return
         try:
             path = CheeseController.getPath(self.path)
-            auth = None
+            auth = Authorization.authorize(self, path, "GET")
+            if (auth == -1): 
+                CheeseController.sendResponse(self, Error.BadToken)
+                return
 
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
             elif (path.startswith("/main")):
-                if (path.startswith("/main/ls")):
+                if (path.startswith("/main/init")):
+                    MainController.init(self, self.path, auth)
+                elif (path.startswith("/main/ls")):
                     MainController.ls(self, self.path, auth)
                 elif (path.startswith("/main/open")):
                     MainController.open(self, self.path, auth)
                 elif (path.startswith("/main/file")):
                     MainController.file(self, self.path, auth)
-                else:
-                    if (self.path.endswith(".css")):
-                        CheeseController.serveFile(self, self.path, "text/css")
-                    else:
-                        CheeseController.serveFile(self, self.path)
-            elif (path.startswith("/move")):
-                if (path.startswith("/move/in")):
-                    MoveController.in(self, self.path, auth)
-                elif (path.startswith("/move/out")):
-                    MoveController.out(self, self.path, auth)
-                else:
-                    if (self.path.endswith(".css")):
-                        CheeseController.serveFile(self, self.path, "text/css")
-                    else:
-                        CheeseController.serveFile(self, self.path)
-            elif (path.startswith("/tree")):
-                if (path.startswith("/tree/get")):
-                    TreeController.get(self, self.path, auth)
                 else:
                     if (self.path.endswith(".css")):
                         CheeseController.serveFile(self, self.path, "text/css")
@@ -89,13 +74,12 @@ class CheeseHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         self.__log()
         try:
-            auth = None
+            auth = Authorization.authorize(self, self.path, "POST")
+            if (auth == -1): 
+                CheeseController.sendResponse(self, Error.BadToken)
+                return
 
             if (self.path.startswith("/main")):
-                pass
-            elif (self.path.startswith("/move")):
-                pass
-            elif (self.path.startswith("/tree")):
                 pass
             else:
                 Error.sendCustomError(self, "Endpoint not found :(", 404)

@@ -1,0 +1,15 @@
+.folder {
+    background-color: rgb(133, 75, 4);
+}
+
+.file {
+}
+
+.chosenItem {
+    background-color: #5ebef5;
+}
+
+.dragOver {
+    border: solid;
+    border-color: black;
+}
