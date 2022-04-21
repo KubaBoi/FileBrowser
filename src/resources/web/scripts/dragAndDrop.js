@@ -15,8 +15,8 @@ function dragStart(e) {
 function dragEnter(e) {
     levitation = 0;
     e.preventDefault();
-    if (e.target.classList.contains("folder"))
-        e.target.classList.add("dragOver");
+    //if (e.target.classList.contains("folder"))
+        //e.target.classList.add("dragOver");
 }
 
 var levitation = 0;
@@ -25,15 +25,18 @@ function dragOver(e) {
     if (e.target.classList.contains("folder")) {
         levitation++;
         e.target.classList.add("dragOver");
-        if (levitation >= 50) {
+        label.innerHTML = levitation;
+        if (levitation >= 100) {
+            levitation = 0;
             if (e.target.innerHTML != "..") {
                 moveIn(e.target.innerHTML);
             }
             else {
                 moveUp();
             }
-            levitation = 0;
         }
+    } else {
+        levitation = 0;
     }
 }
 
