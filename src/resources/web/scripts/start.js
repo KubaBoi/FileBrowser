@@ -4,7 +4,8 @@ var copiedPaths = [];
 
 var startArray = [
     "folder",
-    "tree"
+    "tree",
+    "fileMenu"
 ]
 
 async function start() {

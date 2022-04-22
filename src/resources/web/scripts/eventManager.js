@@ -25,3 +25,18 @@ function unChooseItems(element) {
 document.addEventListener("click", function (e) {
     unChooseItems(e.target);
 });
+
+// cancel browser menu
+window.oncontextmenu = function (e)
+{
+    var elem = e.target;
+    if (!elem.classList.contains("file") && 
+        !elem.classList.contains("folder") ||
+        elem.innerHTML == "..") 
+        return false;
+
+        
+    console.log(e);
+    console.log(e.target);
+    return false;
+}

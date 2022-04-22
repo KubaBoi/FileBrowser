@@ -14,6 +14,7 @@ from cheese.ErrorCodes import Error
 from python.authorization import Authorization
 
 #REST CONTROLLERS
+from python.controllers.fileController import FileController
 from python.controllers.mainController import MainController
 
 
@@ -47,6 +48,8 @@ class CheeseHandler(BaseHTTPRequestHandler):
 
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
+            elif (path.startswith("/file")):
+                pass
             elif (path.startswith("/main")):
                 if (path.startswith("/main/init")):
                     MainController.init(self, self.path, auth)
@@ -79,7 +82,12 @@ class CheeseHandler(BaseHTTPRequestHandler):
                 CheeseController.sendResponse(self, Error.BadToken)
                 return
 
-            if (self.path.startswith("/main")):
+            if (self.path.startswith("/file")):
+                if (self.path.startswith("/file/copy")):
+                    FileController.copy(self, self.path, auth)
+                else:
+                    Error.sendCustomError(self, "Endpoint not found :(", 404)
+            elif (self.path.startswith("/main")):
                 pass
             else:
                 Error.sendCustomError(self, "Endpoint not found :(", 404)

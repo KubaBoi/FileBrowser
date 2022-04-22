@@ -16,7 +16,7 @@ class MainController(cc):
 	@staticmethod
 	def init(server, path, auth):
 		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 400)
+			Error.sendCustomError(server, "Unauthorized", 401)
 			return
 
 		homeFolder = "C:\\Users\\Jakub Anderle\\Downloads"
@@ -28,7 +28,7 @@ class MainController(cc):
 	@staticmethod
 	def ls(server, path, auth):
 		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 400)
+			Error.sendCustomError(server, "Unauthorized", 401)
 			return
 
 		args = cc.getArgs(path)
@@ -74,7 +74,7 @@ class MainController(cc):
 	@staticmethod
 	def open(server, path, auth):
 		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 400)
+			Error.sendCustomError(server, "Unauthorized", 401)
 			return
 
 		args = cc.getArgs(path)
@@ -94,7 +94,7 @@ class MainController(cc):
 	@staticmethod
 	def file(server, path, auth):
 		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 400)
+			Error.sendCustomError(server, "Unauthorized", 401)
 			return
 
 		args = cc.getArgs(path)

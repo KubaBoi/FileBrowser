@@ -13,3 +13,9 @@
     border: solid;
     border-color: black;
 }
+
+.rightButton {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}

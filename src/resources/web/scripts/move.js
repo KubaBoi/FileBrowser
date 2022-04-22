@@ -9,12 +9,18 @@ function moveIn(folderName) {
 }
 
 function moveUp() {
-    folderSplit = folder.split("\\");
-    folder = "";
-    for (let i = 0; i < folderSplit.length-1; i++) {
-        folder += folderSplit[i];
-        if (i < folderSplit.length-2)
-            folder += "\\";
-    }
+    folder = getFolder(folder);
     buildFolder();
+}
+
+function getFolder(fldr) {
+    folderSplit = fldr.split("\\");
+    fldr = "";
+    for (let i = 0; i < folderSplit.length-1; i++) {
+        fldr += folderSplit[i];
+        if (i < folderSplit.length-2) {
+            fldr += "\\";
+        }
+    }
+    return fldr;
 }

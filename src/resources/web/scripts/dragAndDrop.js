@@ -25,7 +25,7 @@ function dragOver(e) {
     if (e.target.classList.contains("folder")) {
         levitation++;
         e.target.classList.add("dragOver");
-        label.innerHTML = levitation;
+
         if (levitation >= 100) {
             levitation = 0;
             if (e.target.innerHTML != "..") {
@@ -45,7 +45,7 @@ function dragLeave(e) {
     e.target.classList.remove("dragOver");
 }
 
-function drop(e) {
+async function drop(e) {
     levitation = 0;
     var pastePath;
 
@@ -56,9 +56,22 @@ function drop(e) {
     else {
         pastePath = folder;
     }
-    console.log(pastePath);
-    for (let i = 0; i < copiedPaths.length; i++) {
-        console.log(copiedPaths[i]);
+
+    if (pastePath != getFolder(copiedPaths[0])) {
+        var response = await callEndpoint("POST", "/file/copy", prepareCopyRequest(pastePath));
+        if (response.ERROR != null) {
+            showAlert("ERROR", response.ERROR);
+        }
+        else {
+            buildFolder();
+        }
+    }
+}
+
+function prepareCopyRequest(pastePath) {
+    return {
+        "FOLDER": pastePath,
+        "ITEMS": copiedPaths
     }
 }
 
