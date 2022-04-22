@@ -49,7 +49,13 @@ class CheeseHandler(BaseHTTPRequestHandler):
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
             elif (path.startswith("/file")):
-                pass
+                if (path.startswith("/file/openAs")):
+                    FileController.openAs(self, self.path, auth)
+                else:
+                    if (self.path.endswith(".css")):
+                        CheeseController.serveFile(self, self.path, "text/css")
+                    else:
+                        CheeseController.serveFile(self, self.path)
             elif (path.startswith("/main")):
                 if (path.startswith("/main/init")):
                     MainController.init(self, self.path, auth)

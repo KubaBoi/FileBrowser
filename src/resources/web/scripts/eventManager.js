@@ -1,6 +1,11 @@
 
 function chooseItem(id) {
     var item = document.getElementById(id);
+
+    if (!window.event.ctrlKey) {
+        unChooseItems(item);
+    }
+
     for (let i = 0; i < chosenItems.length; i++) {
         if (chosenItems[i] == id) return;
     }
@@ -9,6 +14,10 @@ function chooseItem(id) {
 }
 
 function unChooseItems(element) {
+
+    var floatingFileMenu = document.getElementById("fileMenuTable");
+    floatingFileMenu.classList.remove("floatingMenuShow");
+
     if (window.event.ctrlKey) return;
     
     for (let i = 0; i < chosenItems.length; i++) {
@@ -33,10 +42,16 @@ window.oncontextmenu = function (e)
     if (!elem.classList.contains("file") && 
         !elem.classList.contains("folder") ||
         elem.innerHTML == "..") 
-        return false;
+        return;
 
-        
-    console.log(e);
-    console.log(e.target);
+    chooseItem(e.target.id);
+
+    var r = document.querySelector(":root");
+    r.style.setProperty("--floatingMenuPositionX", e.clientX + "px");
+    r.style.setProperty("--floatingMenuPositionY", (e.clientY + 15) + "px");
+
+    var floatingFileMenu = document.getElementById("fileMenuTable");
+    floatingFileMenu.classList.add("floatingMenuShow");
+
     return false;
 }

@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
+import subprocess
 import shutil
 
 from cheese.ErrorCodes import Error
@@ -38,4 +40,34 @@ class FileController(cc):
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
+
+    #@get /openAs
+    @staticmethod
+    def openAs(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.getArgs(path)
+
+        if (not cc.validateJson(["file"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        file = args["file"].replace("%20", " ")
+
+        if (not os.path.exists(file)):
+            Error.sendCustomError(server, "Folder not found", 404)
+            return
+
+        print(file)
+        command = ["powershell.exe", "RUNDLL32.EXE SHELL32.DLL,OpenAs_RunDLL",
+              "'${&\"" + file + "\"}'"]
+        print(command)
+        p = subprocess.Popen(command, stdout=sys.stdout, shell=True)
+        print(p.communicate())
+
+        response = cc.createResponse({"STATUS": "ok"}, 200)
+        cc.sendResponse(server, response)
+
 

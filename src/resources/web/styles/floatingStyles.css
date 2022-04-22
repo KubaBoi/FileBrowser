@@ -4,3 +4,13 @@
     z-index: 99;
     left: -200px;
 }
+
+.floatingMenuShow {
+    left: var(--floatingMenuPositionX);
+    top: var(--floatingMenuPositionY);
+}
+
+.floatingMenuShow td:hover {
+    background-color: rgb(53, 53, 53);
+    cursor: pointer;
+}

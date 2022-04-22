@@ -26,6 +26,7 @@
 				<a href="#2">/file</a>
 				<ol>
 					<li><a href="#2.1">/copy</a></li>
+					<li><a href="#2.2">/openAs</a></li>
 				</ol>
 			</li>
 		</ol>
@@ -186,6 +187,39 @@
 						<figcaption>Return 404:</figcaption>
 						<pre><code class="language-json">
 {"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+					</li>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.2">/openAs - GET</span>
+					<p>Opens "open with" dialog</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{
+	"file": "str"
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "File not found"}						</code></pre></figure>
 					<figure>
 						<figcaption>Return 400:</figcaption>
 						<pre><code class="language-json">

@@ -9,6 +9,7 @@ function dragStart(e) {
 
         copiedPaths.push(folder + "\\" + item.innerHTML);
     }
+    e.dataTransfer.setData("text/plain", copiedPaths);
 }
 
 
@@ -48,6 +49,8 @@ function dragLeave(e) {
 async function drop(e) {
     levitation = 0;
     var pastePath;
+
+    copiedPaths = e.dataTransfer.getData("text/plain").split(",");
 
     e.target.classList.remove("dragOver");
     if (e.target.classList.contains("folder")) {
