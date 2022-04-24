@@ -4,6 +4,7 @@ async function buildFolder() {
     document.getElementById("folderPathLabel").innerHTML = folder;
 
     clearTable(folderTable);
+    chosenItems = [];
 
     var response = await callEndpoint("GET", "/main/ls?folder=" + folder);
     if (response.ERROR == null) {

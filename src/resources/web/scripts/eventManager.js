@@ -9,7 +9,7 @@ function chooseItem(id) {
         }
     }
 
-    unChooseItems(item);
+    //unChooseItems(item);
 
     for (let i = 0; i < chosenItems.length; i++) {
         if (chosenItems[i] == id) return;
@@ -64,6 +64,7 @@ window.oncontextmenu = function (e)
         return;
 
     chooseItem(e.target.id);
+    if (!window.event.ctrlKey) unChooseItems(e.target);
     itemForFloatMenu = e.target;
 
     var r = document.querySelector(":root");

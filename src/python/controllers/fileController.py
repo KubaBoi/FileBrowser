@@ -38,7 +38,10 @@ class FileController(cc):
 
         for item in items:
             item = item.replace("%20", " ")
-            shutil.copy2(item, folder)
+            if (os.path.isfile(item)):
+                shutil.copy2(item, folder)
+            elif (os.path.isdir(item)):
+                shutil.copytree(item, os.path.join(folder, ResMan.getFileName(item)))
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
@@ -65,8 +68,12 @@ class FileController(cc):
 
         for item in items:
             item = item.replace("%20", " ")
-            shutil.copy2(item, folder)
-            os.remove(item)
+            if (os.path.isfile(item)):
+                shutil.copy2(item, folder)
+                os.remove(item)
+            elif (os.path.isdir(item)):
+                shutil.copytree(item, os.path.join(folder, ResMan.getFileName(item)))
+                shutil.rmtree(item, onerror=FileController.onerror)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
@@ -114,8 +121,10 @@ class FileController(cc):
         files = args["FILES"]
 
         for file in files:
-            if (os.path.exists(file)):
+            if (os.path.isfile(file)):
                 os.remove(file)
+            elif (os.path.isdir(file)):
+                shutil.rmtree(file, onerror=FileController.onerror)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
@@ -169,4 +178,16 @@ class FileController(cc):
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
 
+
+# METHODS
+
+    @staticmethod
+    def onerror(func, path, exc_info):
+        import stat
+        # Is the error an access error?
+        if not os.access(path, os.W_OK):
+            os.chmod(path, stat.S_IWUSR)
+            func(path)
+        else:
+            raise
 
