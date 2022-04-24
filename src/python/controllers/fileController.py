@@ -3,12 +3,14 @@
 
 import os
 import sys
-import subprocess
+from subprocess import Popen, PIPE
 import shutil
 
 from cheese.ErrorCodes import Error
 from cheese.resourceManager import ResMan
 from cheese.modules.cheeseController import CheeseController as cc
+
+from python.propOpener import PropertiesOpener as po
 
 
 #@controller /file
@@ -90,7 +92,7 @@ class FileController(cc):
 
         command = f"powershell.exe RUNDLL32.EXE SHELL32.DLL,OpenAs_RunDLL \"{file}\""
 
-        p = subprocess.Popen(command, stdout=sys.stdout, shell=True)
+        p = Popen(command, stdout=sys.stdout, shell=True)
         p.communicate()
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
@@ -139,6 +141,30 @@ class FileController(cc):
             return
 
         os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
+
+        response = cc.createResponse({"STATUS": "ok"}, 200)
+        cc.sendResponse(server, response)
+
+    #@get /properties
+    @staticmethod
+    def properties(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.getArgs(path)
+
+        if (not cc.validateJson(["file"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        file = args["file"].replace("%20", " ")
+
+        if (not os.path.exists(file)):
+            Error.sendCustomError(server, "File not found", 404)
+            return
+
+        po.open(file)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)

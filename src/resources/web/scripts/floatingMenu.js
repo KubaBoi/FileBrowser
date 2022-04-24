@@ -1,7 +1,5 @@
 async function openAs() {
-    var item = document.getElementById(chosenItems[0]);
-
-    var response = await callEndpoint("GET", "/file/openAs?file=" + folder + "\\" + item.innerHTML);
+    var response = await callEndpoint("GET", `/file/openAs?file=${folder}\\${itemForFloatMenu.innerHTML}`);
     if (response.ERROR != null) {
         showAlert("ERROR", response.ERROR);
     }
@@ -27,16 +25,15 @@ async function remove() {
 }
 
 function renameDialog() {
-    var item = document.getElementById(chosenItems[0]);
-    fileNameOriginal = item.innerHTML;
-    item.innerHTML = "";
+    fileNameOriginal = itemForFloatMenu.innerHTML;
+    itemForFloatMenu.innerHTML = "";
 
-    renameDialogParent = item.parentNode;
-    renameDialogTd = item;
+    renameDialogParent = itemForFloatMenu.parentNode;
+    renameDialogTd = itemForFloatMenu;
 
     renameDialogParent.setAttribute("draggable", "false");
 
-    createElement("input", item, "", 
+    createElement("input", itemForFloatMenu, "", 
     [
         {"name": "value", "value": fileNameOriginal},
         {"name": "style", "value": "width:100%"},
@@ -60,4 +57,12 @@ async function rename() {
     }
 
     buildFolder();
+}
+
+async function properties() {
+
+    var response = await callEndpoint("GET", `/file/properties?file=${folder}\\${itemForFloatMenu.innerHTML}`);
+    if (response.ERROR != null) {
+        showAlert("ERROR", response.ERROR);
+    }
 }

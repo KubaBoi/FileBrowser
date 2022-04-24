@@ -53,6 +53,8 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     FileController.openAs(self, self.path, auth)
                 elif (path.startswith("/file/rename")):
                     FileController.rename(self, self.path, auth)
+                elif (path.startswith("/file/properties")):
+                    FileController.properties(self, self.path, auth)
                 else:
                     if (self.path.endswith(".css")):
                         CheeseController.serveFile(self, self.path, "text/css")

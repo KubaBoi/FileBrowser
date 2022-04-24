@@ -64,6 +64,7 @@ window.oncontextmenu = function (e)
         return;
 
     chooseItem(e.target.id);
+    itemForFloatMenu = e.target;
 
     var r = document.querySelector(":root");
     r.style.setProperty("--floatingMenuPositionX", e.clientX + "px");
