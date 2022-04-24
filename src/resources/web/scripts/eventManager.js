@@ -2,10 +2,6 @@
 function chooseItem(id) {
     var item = document.getElementById(id);
 
-    if (!window.event.ctrlKey) {
-        unChooseItems(item);
-    }
-
     for (let i = 0; i < chosenItems.length; i++) {
         if (chosenItems[i] == id) return;
     }

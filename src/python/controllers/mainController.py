@@ -59,7 +59,7 @@ class MainController(cc):
 				jsonResponse["FOLDER"].append(
 					{
 						"NAME": name,
-						"IMAGE": icon.find(name.split(".")[-1]) + "Icon.png",
+						"IMAGE": icon.find(os.path.join(root, name)),
 						"SIZE": ResMan.convertBytes(os.path.getsize(os.path.join(root, name))),
 						"TYPE": "FILE"
 					}

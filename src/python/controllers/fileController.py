@@ -41,6 +41,34 @@ class FileController(cc):
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
 
+    #@post /move
+    @staticmethod
+    def move(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.readArgs(server)
+
+        if (not cc.validateJson(["FOLDER", "ITEMS"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        folder = args["FOLDER"].replace("%20", " ")
+        items = args["ITEMS"]
+
+        if (not os.path.exists(folder)):
+            Error.sendCustomError(server, "Folder not found", 404)
+            return
+
+        for item in items:
+            item = item.replace("%20", " ")
+            shutil.copy2(item, folder)
+            os.remove(item)
+
+        response = cc.createResponse({"STATUS": "ok"}, 200)
+        cc.sendResponse(server, response)
+
     #@get /openAs
     @staticmethod
     def openAs(server, path, auth):
@@ -60,12 +88,32 @@ class FileController(cc):
             Error.sendCustomError(server, "Folder not found", 404)
             return
 
-        print(file)
-        command = ["powershell.exe", "RUNDLL32.EXE SHELL32.DLL,OpenAs_RunDLL",
-              "'${&\"" + file + "\"}'"]
-        print(command)
+        command = f"powershell.exe RUNDLL32.EXE SHELL32.DLL,OpenAs_RunDLL \"{file}\""
+
         p = subprocess.Popen(command, stdout=sys.stdout, shell=True)
-        print(p.communicate())
+        p.communicate()
+
+        response = cc.createResponse({"STATUS": "ok"}, 200)
+        cc.sendResponse(server, response)
+
+    #@post /remove
+    @staticmethod
+    def remove(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.readArgs(server)
+
+        if (not cc.validateJson(["FILES"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        files = args["FILES"]
+
+        for file in files:
+            if (os.path.exists(file)):
+                os.remove(file)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)

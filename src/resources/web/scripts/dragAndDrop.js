@@ -60,14 +60,22 @@ async function drop(e) {
         pastePath = folder;
     }
 
-    if (pastePath != getFolder(copiedPaths[0])) {
-        var response = await callEndpoint("POST", "/file/copy", prepareCopyRequest(pastePath));
-        if (response.ERROR != null) {
-            showAlert("ERROR", response.ERROR);
-        }
-        else {
-            buildFolder();
-        }
+    if (pastePath == getFolder(copiedPaths[0])) {
+        return;
+    }
+
+    var endpoint = "move";
+
+    if (!window.event.ctrlKey) {
+        endpoint = "copy";
+    }
+
+    var response = await callEndpoint("POST", "/file/" + endpoint, prepareCopyRequest(pastePath));
+    if (response.ERROR != null) {
+        showAlert("ERROR", response.ERROR);
+    }
+    else {
+        buildFolder();
     }
 }
 

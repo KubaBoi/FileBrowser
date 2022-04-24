@@ -91,6 +91,10 @@ class CheeseHandler(BaseHTTPRequestHandler):
             if (self.path.startswith("/file")):
                 if (self.path.startswith("/file/copy")):
                     FileController.copy(self, self.path, auth)
+                elif (self.path.startswith("/file/move")):
+                    FileController.move(self, self.path, auth)
+                elif (self.path.startswith("/file/remove")):
+                    FileController.remove(self, self.path, auth)
                 else:
                     Error.sendCustomError(self, "Endpoint not found :(", 404)
             elif (self.path.startswith("/main")):
