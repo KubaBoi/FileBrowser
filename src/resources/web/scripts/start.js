@@ -19,6 +19,7 @@ async function start() {
     if (response.ERROR == null) {
         folder = response.PATH;
         buildFolder();
+        buildTree();
     }
     else {
         showAlert("ERROR", response.ERROR);

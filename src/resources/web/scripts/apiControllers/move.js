@@ -13,6 +13,11 @@ function moveUp() {
     buildFolder();
 }
 
+function moveDirectFromTree(spanId) {
+    var path = getTreePath(spanId);
+    move(path);
+}
+
 function getFolder(fldr) {
     folderSplit = fldr.split("\\");
     fldr = "";
