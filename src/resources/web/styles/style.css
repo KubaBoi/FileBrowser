@@ -46,6 +46,10 @@ button:hover {
 .file {
 }
 
+#folderDiv td {
+    height: 32px;
+}
+
 .chosenItem {
     background-color: #5ebef5;
 }

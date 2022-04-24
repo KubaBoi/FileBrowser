@@ -118,4 +118,29 @@ class FileController(cc):
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
 
+    #@get /rename
+    @staticmethod
+    def rename(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.getArgs(path)
+
+        if (not cc.validateJson(["file", "newName"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        file = args["file"].replace("%20", " ")
+        newName = args["newName"].replace("%20", " ")
+
+        if (not os.path.exists(file)):
+            Error.sendCustomError(server, "File not found", 404)
+            return
+
+        os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
+
+        response = cc.createResponse({"STATUS": "ok"}, 200)
+        cc.sendResponse(server, response)
+
 

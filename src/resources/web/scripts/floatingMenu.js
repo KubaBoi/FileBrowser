@@ -25,3 +25,39 @@ async function remove() {
         buildFolder();
     }
 }
+
+function renameDialog() {
+    var item = document.getElementById(chosenItems[0]);
+    fileNameOriginal = item.innerHTML;
+    item.innerHTML = "";
+
+    renameDialogParent = item.parentNode;
+    renameDialogTd = item;
+
+    renameDialogParent.setAttribute("draggable", "false");
+
+    createElement("input", item, "", 
+    [
+        {"name": "value", "value": fileNameOriginal},
+        {"name": "style", "value": "width:100%"},
+        {"name": "id", "value": "renameInput"}
+    ]);
+}
+
+async function rename() {
+    var renameInput = document.getElementById("renameInput");
+    var newName = renameInput.value;
+
+    renameDialogTd.innerHTML = newName;
+    renameDialogParent.setAttribute("draggable", "true");
+    renameInput.remove();
+
+    if (newName == fileNameOriginal) return;
+
+    var response = await callEndpoint("GET", `/file/rename?file=${folder}\\${fileNameOriginal}&newName=${newName}`);
+    if (response.ERROR != null) {
+        showAlert("ERROR", response.ERROR);
+    }
+
+    buildFolder();
+}

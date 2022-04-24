@@ -6,7 +6,11 @@ var startArray = [
     "folder",
     "tree",
     "fileMenu"
-]
+];
+
+var renameDialogParent = null;
+var renameDialogTd = null;
+var fileNameOriginal = "";
 
 async function start() {
     var response = await callEndpoint("GET", "/main/init");

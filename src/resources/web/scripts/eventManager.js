@@ -1,6 +1,15 @@
 
 function chooseItem(id) {
     var item = document.getElementById(id);
+    if (doesRenamingExists()) {
+        if (isRenaming(item)) {
+            return;
+        } else {
+            rename();
+        }
+    }
+
+    unChooseItems(item);
 
     for (let i = 0; i < chosenItems.length; i++) {
         if (chosenItems[i] == id) return;
@@ -25,6 +34,20 @@ function unChooseItems(element) {
         chosenItems.splice(i, 1);
         i--;
     }
+}
+
+function doesRenamingExists() {
+    if (document.getElementById("renameInput") != null) {
+        return true;
+    }
+    return false;
+}
+
+function isRenaming(item) {
+    if (document.getElementById("renameInput").parentNode == item) {
+        return true;
+    }
+    return false;
 }
 
 document.addEventListener("click", function (e) {

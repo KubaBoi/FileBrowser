@@ -1,13 +1,28 @@
 .floatingMenu {
     position: fixed;
-    background-color: black;
+    background-color: rgb(44, 44, 44);
     z-index: 99;
+    top: var(--floatingMenuPositionY);
     left: -200px;
+    border: solid;
+    border-color: black;
+    border-radius: 5px;
+
+    transition: all;
+    transition-duration: 0.3s;
 }
 
 .floatingMenuShow {
     left: var(--floatingMenuPositionX);
     top: var(--floatingMenuPositionY);
+
+    transition: all;
+    transition-duration: 0.3s;
+}
+
+.floatingMenuShow td {
+    height: 35px;
+    width: 100px;
 }
 
 .floatingMenuShow td:hover {
