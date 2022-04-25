@@ -20,6 +20,7 @@ async function start() {
         folder = response.PATH;
         buildFolder();
         buildTree();
+        createFavorites();
     }
     else {
         showAlert("ERROR", response.ERROR);

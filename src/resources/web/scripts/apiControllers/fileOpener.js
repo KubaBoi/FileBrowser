@@ -10,13 +10,13 @@ function getTreePath(id) {
     var parent = item.parentNode;
     var path = "";
 
-    while (parent.id != "treeTable") {
+    while (!parent.id.startsWith("treeTable")) {
         if (parent.nodeName != "UL") {
             childSpan = parent.childNodes[0];
-            path = childSpan.getAttribute("value") + "\\" + path;
+            path = "\\" + childSpan.getAttribute("value") + path;
         }
         parent = parent.parentNode;
     }
 
-    return "C:\\" + path;
+    return "C:" + path;
 }

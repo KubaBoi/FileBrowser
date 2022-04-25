@@ -65,3 +65,41 @@ function createLis(parentUL, treeItems) {
         );
     }
 }
+
+async function createFavorites() {
+    var treeTableFavorites = document.getElementById("treeTableFavorites");
+
+    clearTable(treeTableFavorites);
+    createElement("label", treeTableFavorites, "Favorites &#9733;");
+
+    var response = await callEndpoint("GET", "/main/favorites");
+    if (response.ERROR == null) {
+        var treeItems = response.FAVOURITES;
+
+        for (var i = 0; i < treeItems.length; i++) {
+            var item = treeItems[i];
+
+            var id = 0;
+            while (document.getElementById("treeRow" + id) != null) id++;
+
+            var newLI = createElement("li", treeTableFavorites, "",
+                [
+                    {"name": "id", "value": "treeRow" + id}
+                ]
+            );
+
+            createElement("span", newLI, stringShorter(item.NAME, 15),
+                [
+                    {"name": "ondblclick", "value": `buildBranch("${"treeSpan" + id}")`},
+                    {"name": "onclick", "value": `sglC(function(){moveDirectFromTree("${"treeSpan" + id}");})`},
+                    {"name": "id", "value": "treeSpan" + id},
+                    {"name": "value", "value": item.PATH},
+                    {"name": "title", "value": "C:\\" + item.PATH}
+                ]
+            );
+        }
+    }
+    else {
+        showAlert("ERROR", response.ERROR);
+    }
+}

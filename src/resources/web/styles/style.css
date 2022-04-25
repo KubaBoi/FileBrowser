@@ -41,8 +41,6 @@ button:hover {
     transition-duration: 0.5s;
 }
 
-
-
 .folder {
     background-color: rgb(133, 75, 4);
 }
@@ -50,11 +48,31 @@ button:hover {
 .file {
 }
 
-#folderDiv td {
+hr {
+    height: 5px;
+    border-width: 0;
+    background-color: var(--light-color);
+    color: var(--light-color);
+}
+
+.contentDiv {
+    border: solid;
+    border-width: 2px;
+    border-color: var(--light-color);
+    padding: 5px;
+    min-width: 500px;
+    overflow-y: scroll;
+}
+
+.contentDiv table {
+    width: 100%;
+}
+
+.contentDiv td {
     height: 32px;
 }
 
-#folderDiv tr:hover {
+.folder:hover, .file:hover {
     background-color: var(--lighter-color);
     transition: all;
     transition-duration: 0.2s;

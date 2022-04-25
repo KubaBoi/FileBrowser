@@ -90,6 +90,7 @@ class MainController(cc):
 		response = cc.createResponse({'STATUS': 'ok'}, 200)
 		cc.sendResponse(server, response)
 
+	#TODO
 	#@get /file
 	@staticmethod
 	def file(server, path, auth):
@@ -108,6 +109,22 @@ class MainController(cc):
 		response = cc.createResponse({'FILE': {'NAME': 'str', 'CONTENT': 'str'}}, 200)
 		cc.sendResponse(server, response)
 
+	#@get /favorites
+	@staticmethod
+	def favorites(server, path, auth):
+		if (auth["role"] > 0):
+			Error.sendCustomError(server, "Unauthorized", 401)
+			return
+
+		jsonResponse = [
+			{
+				"NAME": "Downloads",
+				"PATH": "Users\\Jakub Anderle\\Downloads"
+			}
+		]
+
+		response = cc.createResponse({"FAVOURITES": jsonResponse}, 200)
+		cc.sendResponse(server, response)
 
 	# METHODS
 
