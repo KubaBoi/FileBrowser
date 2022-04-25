@@ -7,6 +7,8 @@ from cheese.ErrorCodes import Error
 from cheese.resourceManager import ResMan
 from cheese.modules.cheeseController import CheeseController as cc
 
+from python.repositories.favoritesRepository import FavoritesRepository
+
 from python.iconFinder import IconFinder
 
 #@controller /main
@@ -116,12 +118,9 @@ class MainController(cc):
 			Error.sendCustomError(server, "Unauthorized", 401)
 			return
 
-		jsonResponse = [
-			{
-				"NAME": "Downloads",
-				"PATH": "Users\\Jakub Anderle\\Downloads"
-			}
-		]
+		fav = FavoritesRepository.findAll()
+
+		jsonResponse = cc.modulesToJsonArray(fav)
 
 		response = cc.createResponse({"FAVOURITES": jsonResponse}, 200)
 		cc.sendResponse(server, response)
