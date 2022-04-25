@@ -1,8 +1,6 @@
 
 function dragStart(e) {
     if (e.target.nodeName == "DIV") {
-        console.log(e);
-
         var r = document.querySelector(":root");
         var rs = getComputedStyle(r);
 
