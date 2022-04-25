@@ -1,10 +1,11 @@
-var folder = "";
+var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
 
+var alertTime = 3000;
+
 var startArray = [
-    "folder",
-    "tree",
+    "menu",
     "fileMenu"
 ];
 
@@ -15,17 +16,15 @@ var fileNameOriginal = "";
 var itemForFloatMenu = null;
 
 var resizeDefX = null;
+var parentTree = null;
 
 async function start() {
     var response = await callEndpoint("GET", "/main/init");
     if (response.ERROR == null) {
-        folder = response.PATH;
-        buildFolder();
-        buildTree();
-        createFavorites();
+        openFolder(response.PATH);
     }
     else {
-        showAlert("ERROR", response.ERROR);
+        showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }
 

@@ -1,6 +1,7 @@
 
-async function buildTree() {
-    var treeTable = document.getElementById("treeTable");
+async function buildTree(divId) {
+    var parentDiv = document.getElementById(divId);
+    var treeTable = parentDiv.querySelector("#treeTable");
 
     clearTable(treeTable);
     chosenItems = [];
@@ -12,12 +13,12 @@ async function buildTree() {
         createLis(treeTable, treeItems);
     }
     else {
-        showAlert("ERROR", response.ERROR);
+        showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }
 
-async function buildBranch(parentRowId) {
-    var parent = document.getElementById(parentRowId).parentNode;
+async function buildBranch(e) {
+    var parent = e.parentNode;
 
     var childNodes = parent.childNodes;
     if (childNodes.length > 1) {
@@ -29,7 +30,7 @@ async function buildBranch(parentRowId) {
         return;
     }
 
-    var path = getTreePath(parentRowId);
+    var path = getTreePath(e);
     var response = await callEndpoint("GET", `/main/ls?folder=${path}`);
     if (response.ERROR == null) {
         var newUL = createElement("ul", parent);
@@ -56,7 +57,7 @@ function createLis(parentUL, treeItems) {
 
         createElement("span", newLI, stringShorter(item.NAME, 15),
             [
-                {"name": "ondblclick", "value": `buildBranch("${"treeSpan" + id}")`},
+                {"name": "ondblclick", "value": `buildBranch(this)`},
                 {"name": "onclick", "value": `sglC(function(){moveDirectFromTree("${"treeSpan" + id}");})`},
                 {"name": "id", "value": "treeSpan" + id},
                 {"name": "value", "value": item.NAME},
@@ -66,8 +67,9 @@ function createLis(parentUL, treeItems) {
     }
 }
 
-async function createFavorites() {
-    var treeTableFavorites = document.getElementById("treeTableFavorites");
+async function createFavorites(divId) {
+    var parentDiv = document.getElementById(divId);
+    var treeTableFavorites = parentDiv.querySelector("#treeTableFavorites");
 
     clearTable(treeTableFavorites);
     createElement("label", treeTableFavorites, "Favorites &#9733;");
@@ -90,7 +92,7 @@ async function createFavorites() {
 
             createElement("span", newLI, stringShorter(item.NAME, 15),
                 [
-                    {"name": "ondblclick", "value": `buildBranch("${"treeSpan" + id}")`},
+                    {"name": "ondblclick", "value": `buildBranch(this)`},
                     {"name": "onclick", "value": `sglC(function(){moveDirectFromTree("${"treeSpan" + id}");})`},
                     {"name": "id", "value": "treeSpan" + id},
                     {"name": "value", "value": item.PATH},
@@ -100,6 +102,6 @@ async function createFavorites() {
         }
     }
     else {
-        showAlert("ERROR", response.ERROR);
+        showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }

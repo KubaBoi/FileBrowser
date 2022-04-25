@@ -1,0 +1,51 @@
+.openFolders {
+    display: grid;
+    position: relative;
+    top: -30px;
+    width: 100%;
+    height: 97%;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    grid-template-areas: "fold1";
+    overflow-y: scroll;
+    padding-top: 60px;
+}
+
+.openFolder {
+    display: flex;
+    border: solid;
+    border-color: var(--lighter-color);
+    background-color: var(--light-color);
+    margin: 2px;
+    grid-area: fold1;
+
+    animation-name: openFolderAnim;
+    animation-duration: 2s;
+}
+
+@keyframes openFolderAnim {
+    0% {border-color: var(--secondary-color); background-color: var(--secondary-color);}
+    100% {border-color: var(--lighter-color); background-color: var(--light-color);}
+}
+
+hr {
+    height: 5px;
+    border-width: 0;
+    background-color: var(--light-color);
+    color: var(--light-color);
+}
+
+.contentDiv {
+    border: solid;
+    border-width: 2px;
+    border-color: var(--light-color);
+    padding: 5px;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.sizerDiv {
+    cursor: e-resize;
+    width: 4px;
+    background-color: var(--main-color);
+}

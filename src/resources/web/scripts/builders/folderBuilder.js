@@ -1,7 +1,10 @@
 
-async function buildFolder() {
-    var folderTable = document.getElementById("folderTable");
-    document.getElementById("folderPathLabel").innerHTML = folder;
+async function buildFolder(divId) {
+    var parentDiv = document.getElementById(divId);
+    var folderTable = parentDiv.querySelector("#folderTable");
+
+    var folder = getPath(divId);
+    parentDiv.querySelector("#folderPathLabel").innerHTML = folder;
 
     clearTable(folderTable);
     chosenItems = [];
@@ -24,34 +27,41 @@ async function buildFolder() {
             {"text": "", "attributes": []}
         ],
         [
-            {"name": "ondblclick", "value": "moveUp()"}
+            {"name": "ondblclick", "value": "moveUp(this)"}
         ]);
 
         for (let i = 0; i < folderItems.length; i++) {
             var item = folderItems[i];
 
-            var ondblclick = "moveIn('" + item.NAME + "')";
+            var ondblclick = "moveIn(this, '" + item.NAME + "')";
 
             if (item.TYPE == "FILE") {
-                ondblclick = "openFile('" + item.NAME + "')";
+                ondblclick = "openFile(this, '" + item.NAME + "')";
             }
 
+            var id = i;
+            while (document.getElementById("row" + id) != null) id++;
+
             addRow(folderTable, [
-                {"text": "<img src='images/" + item.IMAGE + "'>"},
+                {"text": "<img src='images/" + item.IMAGE + "'>", "attributes": [
+                    {"name": "class", "value": "iconCell"}
+                ]},
                 {"text": item.NAME, "attributes": [
                     {"name": "class", "value": item.TYPE.toLowerCase()},
-                    {"name": "id", "value": "row" + i}
+                    {"name": "id", "value": "row" + id}
                 ]},
-                {"text": item.SIZE, "attributes": []}
+                {"text": item.SIZE, "attributes": [
+                    {"name": "class", "value": "sizeCell"}
+                ]}
             ],
             [
                 {"name": "ondblclick", "value": ondblclick},
-                {"name": "onclick", "value": "chooseItem('row" + i + "')"},
+                {"name": "onclick", "value": "chooseItem('row" + id + "')"},
                 {"name": "draggable", "value": "true"}
             ]);
         }
     }
     else {
-        showAlert("ERROR", response.ERROR);
+        showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }

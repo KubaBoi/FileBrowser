@@ -12,86 +12,14 @@
     
     --floatingMenuPositionX: -200px;
     --floatingMenuPositionY: -200px;
-
-    --tree-width: 200px;
 }
 
 body {
     display: flex;
-    min-height: 0px;
     overflow-y: hidden;
 }
 
-button {
-    background-color: var(--light-color);
-    color: var(--main-text-color);
-    border-width: 0px;
-    padding: 1em;
-    margin: 5px;
-    border-radius: 5px;
-
-    transition: all;
-    transition-duration: 0.5s;
-}
-
-button:hover {
-    background-color: var(--secondary-light-color);
-    color: var(--main-text-color);
-    border-width: 0px;
-    padding: 1em;
-    border-radius: 5px;
-
-    transition: all;
-    transition-duration: 0.5s;
-}
-
-.folder {
-    background-color: rgb(133, 75, 4);
-}
-
-.file {
-}
-
-hr {
-    height: 5px;
-    border-width: 0;
-    background-color: var(--light-color);
-    color: var(--light-color);
-}
-
-.contentDiv {
-    border: solid;
-    border-width: 2px;
-    border-color: var(--light-color);
-    padding: 5px;
-    min-width: 500px;
-    overflow-y: scroll;
-}
-
-.contentDiv table {
-    width: 100%;
-}
-
-.contentDiv td {
-    height: 32px;
-}
-
-.folder:hover, .file:hover {
-    background-color: var(--lighter-color);
-    transition: all;
-    transition-duration: 0.2s;
-}
-
-.chosenItem {
-    background-color: #5ebef5;
-}
-
-.dragOver {
-    border: solid;
-    border-color: black;
-}
-
-.sizerDiv {
-    cursor: e-resize;
-    width: 4px;
+.mainMenu {
+    position: fixed;
+    z-index: 100;
 }

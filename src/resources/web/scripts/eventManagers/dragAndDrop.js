@@ -1,10 +1,18 @@
 
 function dragStart(e) {
     if (e.target.nodeName == "DIV") {
-        var r = document.querySelector(":root");
-        var rs = getComputedStyle(r);
+        parentTree = findParent(e.target);
+        var allTrees = document.body.getElementsByClassName("treeDiv");
+        for (var i = 0; i < allTrees.length; i++) {
+            var testedParent = findParent(allTrees[i]);
+            if (testedParent == parentTree) {
+                parentTree = allTrees[i];
+                console.log(parentTree);
+                break;
+            }
+        }
 
-        resizeDefX = e.clientX - parseInt(rs.getPropertyValue("--tree-width").replace("px", ""));
+        resizeDefX = e.clientX - parseInt(getComputedStyle(parentTree).getPropertyValue("width").replace("px", ""));
         return;
     }
 
@@ -14,8 +22,10 @@ function dragStart(e) {
     copiedPaths = [];
     for (let i = 0; i < chosenItems.length; i++) {
         var item = document.getElementById(chosenItems[i]);
-
-        copiedPaths.push(folder + "\\" + item.innerHTML);
+        
+        var parent = findParent(item);
+        var path = getPath(parent.getAttribute("id"));
+        copiedPaths.push(path + "\\" + item.innerHTML);
     }
     e.dataTransfer.setData("text/plain", copiedPaths);
 }
@@ -23,9 +33,7 @@ function dragStart(e) {
 
 function dragEnter(e) {
     if (resizeDefX != null) {
-        var r = document.querySelector(":root");
-
-        r.style.setProperty("--tree-width", (e.clientX - resizeDefX) + "px");
+        parentTree.style.width = (e.clientX - resizeDefX) + "px";
         return;
     }
 
@@ -37,7 +45,10 @@ function dragEnter(e) {
 
 var levitation = 0;
 function dragOver(e) {
-    if (resizeDefX != null) return;
+    if (resizeDefX != null) {
+        parentTree.style.width = (e.clientX - resizeDefX) + "px";
+        return;
+    }
 
     e.preventDefault();
     if (e.target.classList.contains("folder")) {
@@ -59,7 +70,10 @@ function dragOver(e) {
 }
 
 function dragLeave(e) {
-    if (resizeDefX != null) return;
+    if (resizeDefX != null) {
+        parentTree.style.width = (e.clientX - resizeDefX) + "px";
+        return;
+    }
 
     levitation = 0;
     e.target.classList.remove("dragOver");
@@ -67,7 +81,6 @@ function dragLeave(e) {
 
 async function drop(e) {
     if (resizeDefX != null) {
-        console.log("END");
         resizeDefX = null;
         return;
     }
@@ -76,13 +89,17 @@ async function drop(e) {
     var pastePath;
 
     copiedPaths = e.dataTransfer.getData("text/plain").split(",");
+    var parent = findParent(e.target);
+    var path = getPath(parent.getAttribute("id"));
+
+    unChooseItems(null);
 
     e.target.classList.remove("dragOver");
     if (e.target.classList.contains("folder")) {
-        pastePath = folder + "\\" + e.target.innerHTML;
+        pastePath = path + "\\" + e.target.innerHTML;
     }
     else {
-        pastePath = folder;
+        pastePath = path;
     }
 
     if (pastePath == getFolder(copiedPaths[0])) {
@@ -97,10 +114,10 @@ async function drop(e) {
 
     var response = await callEndpoint("POST", "/file/" + endpoint, prepareCopyRequest(pastePath));
     if (response.ERROR != null) {
-        showAlert("ERROR", response.ERROR);
+        showWrongAlert("ERROR", response.ERROR, alertTime);
     }
     else {
-        buildFolder();
+        buildFolder(parent.id);
     }
 }
 

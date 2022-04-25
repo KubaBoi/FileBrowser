@@ -5,16 +5,18 @@
     <link rel="stylesheet" href="/styles/treeStyles.css">
     <link rel="stylesheet" href="/styles/floatingStyles.css">
     <link rel="stylesheet" href="/styles/scrollStyle.css">
+    <link rel="stylesheet" href="/styles/tableStyle.css">
+    <link rel="stylesheet" href="/styles/folderStyle.css">
     <link rel="stylesheet" href="https://kubaboi.github.io/CheeseFramework/public/styles/style.css">
     <link rel="stylesheet" href="https://kubaboi.github.io/CheeseFramework/public/styles/alertStyle.css">
     <title>File Browser</title>
 </head>
 <body>
 
-<div id="treeDiv"></div>
-<div class="sizerDiv", draggable="true"></div>
-<div id="folderDiv" class="contentDiv"></div>
+<div id="menuDiv" class="mainMenu"></div>
+<div id="openFoldersDiv" class="openFolders"></div>
 <div id="fileMenuDiv"></div>
+<div></div>
 
 <!-- External scripts -->
 <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>    
@@ -30,6 +32,8 @@
 <!-- Document builders -->
 <script src="/scripts/builders/folderBuilder.js"></script>
 <script src="/scripts/builders/treeBuilder.js"></script>
+<script src="/scripts/builders/tabBuilder.js"></script>
+<script src="/scripts/builders/gridManager.js"></script>
 
 <!-- API Controllers -->
 <script src="/scripts/apiControllers/move.js"></script>
