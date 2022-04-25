@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBrowser", "FileBrowser\FileBrowser.csproj", "{301BF4C1-451C-4397-BA86-3AAC87DB93B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBrowserApp", "FileBrowserApp\FileBrowserApp.csproj", "{16819968-F7F1-465F-A9BA-19D7C3F623DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{301BF4C1-451C-4397-BA86-3AAC87DB93B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{301BF4C1-451C-4397-BA86-3AAC87DB93B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{301BF4C1-451C-4397-BA86-3AAC87DB93B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{301BF4C1-451C-4397-BA86-3AAC87DB93B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16819968-F7F1-465F-A9BA-19D7C3F623DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16819968-F7F1-465F-A9BA-19D7C3F623DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16819968-F7F1-465F-A9BA-19D7C3F623DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16819968-F7F1-465F-A9BA-19D7C3F623DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D57E646D-8A59-4B5B-A983-CEEE32D9FF0A}
+		SolutionGuid = {071487E2-682C-48E0-9AB9-719D91BBBD34}
 	EndGlobalSection
 EndGlobal
