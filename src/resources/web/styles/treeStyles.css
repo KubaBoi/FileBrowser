@@ -1,5 +1,5 @@
 #treeDiv {
-    width: 200px;
+    width: var(--tree-width);
     word-break: break-all;
 
     border: solid;

@@ -1,5 +1,15 @@
 
 function dragStart(e) {
+    if (e.target.nodeName == "DIV") {
+        console.log(e);
+
+        var r = document.querySelector(":root");
+        var rs = getComputedStyle(r);
+
+        resizeDefX = e.clientX - parseInt(rs.getPropertyValue("--tree-width").replace("px", ""));
+        return;
+    }
+
     nameCell = e.path[0].cells[1];
     chooseItem(nameCell.id);
 
@@ -14,6 +24,13 @@ function dragStart(e) {
 
 
 function dragEnter(e) {
+    if (resizeDefX != null) {
+        var r = document.querySelector(":root");
+
+        r.style.setProperty("--tree-width", (e.clientX - resizeDefX) + "px");
+        return;
+    }
+
     levitation = 0;
     e.preventDefault();
     if (e.target.classList.contains("folder"))
@@ -22,6 +39,8 @@ function dragEnter(e) {
 
 var levitation = 0;
 function dragOver(e) {
+    if (resizeDefX != null) return;
+
     e.preventDefault();
     if (e.target.classList.contains("folder")) {
         levitation++;
@@ -42,11 +61,19 @@ function dragOver(e) {
 }
 
 function dragLeave(e) {
+    if (resizeDefX != null) return;
+
     levitation = 0;
     e.target.classList.remove("dragOver");
 }
 
 async function drop(e) {
+    if (resizeDefX != null) {
+        console.log("END");
+        resizeDefX = null;
+        return;
+    }
+
     levitation = 0;
     var pastePath;
 

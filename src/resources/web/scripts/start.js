@@ -14,6 +14,8 @@ var fileNameOriginal = "";
 
 var itemForFloatMenu = null;
 
+var resizeDefX = null;
+
 async function start() {
     var response = await callEndpoint("GET", "/main/init");
     if (response.ERROR == null) {

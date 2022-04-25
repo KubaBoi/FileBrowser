@@ -12,6 +12,8 @@
     
     --floatingMenuPositionX: -200px;
     --floatingMenuPositionY: -200px;
+
+    --tree-width: 200px;
 }
 
 body {
@@ -89,8 +91,7 @@ hr {
     border-color: black;
 }
 
-.rightButton {
-    position: absolute;
-    right: 5px;
-    top: 10px;
+.sizerDiv {
+    cursor: e-resize;
+    width: 4px;
 }

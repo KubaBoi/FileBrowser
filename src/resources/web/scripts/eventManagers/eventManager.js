@@ -9,8 +9,6 @@ function chooseItem(id) {
         }
     }
 
-    //unChooseItems(item);
-
     for (let i = 0; i < chosenItems.length; i++) {
         if (chosenItems[i] == id) return;
     }
