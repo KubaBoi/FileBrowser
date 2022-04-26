@@ -1,4 +1,4 @@
-async function openFolder(path) {
+async function openFolder(path, root) {
     if (folders.length == 8) {
         showWrongAlert("Slow down", "That's too much, man<br>Close something boy", alertTime);
         return;
@@ -25,9 +25,11 @@ async function openFolder(path) {
         folders.push(
             {
                 "PATH": path,
-                "DIV_ID": divId
+                "DIV_ID": divId,
+                "ROOT": root
             }
         );
+        
         renameGridAreas();
         doGrid();
     
@@ -66,6 +68,13 @@ function getPath(divId) {
     return null;
 }
 
+function getRoot(divId) {
+    for (var i = 0; i < folders.length; i++) {
+        if (folders[i].DIV_ID == divId) return folders[i].ROOT;
+    }
+    return null;
+}
+
 function changePath(divId, newPath) {
     for (var i = 0; i < folders.length; i++) {
         if (folders[i].DIV_ID == divId) {
@@ -79,7 +88,7 @@ function changePath(divId, newPath) {
 async function openNewTab() {
     var response = await callEndpoint("GET", "/main/init");
     if (response.ERROR == null) {
-        openFolder(response.PATH);
+        openFolder(response.PATH, response.ROOT);
     }
     else {
         showWrongAlert("ERROR", response.ERROR, alertTime);

@@ -29,6 +29,7 @@
     padding-top: 4px;
     width: 100%;
     background-color: var(--lighter-color);
+    text-align: top;
 }
 
 .contentDiv {
@@ -65,7 +66,17 @@ hr {
     background-color: var(--main-color);
 }
 
-.closeImg {
-    position: relative;
-    right: 0px;
+.toolDiv {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+}
+
+.clickableImg, .closeImg {
+    width: 20px;
+    height: 20px;
+}
+
+.clickableImg:hover, .closeImg:hover, .clickableBigImg:hover {
+    filter: drop-shadow(0 0 2px #ffffffff);
 }

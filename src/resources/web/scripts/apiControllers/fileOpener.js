@@ -2,7 +2,7 @@ async function openFile(e, file) {
     var parent = findParent(e);
     var path = getPath(parent.id);
 
-    var response = await callEndpoint("GET", `/main/open?file=${path}\\${file}`);
+    var response = await callEndpoint("GET", `/main/open?path=${path}\\${file}`);
     if (response.ERROR != null) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
@@ -10,17 +10,17 @@ async function openFile(e, file) {
 
 function getTreePath(e) {
     var parent = e.parentNode;
-    var path = "";
+    var pathArray = [];
     
     while (!parent.id.startsWith("treeTable")) {
         if (parent.nodeName != "UL") {
             childSpan = parent.childNodes[0];
-            path = "\\" + childSpan.getAttribute("value") + path;
+            pathArray.push(childSpan.getAttribute("value"));
         }
         parent = parent.parentNode;
     }
-
-    return "C:" + path;
+    var path = pathArray.reverse().join("\\");
+    return getRoot(parent.parentNode.parentNode.parentNode.id) + path;
 }
 
 async function openCmd(e) {

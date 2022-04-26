@@ -1,6 +1,7 @@
 
 async function buildFolder(divId) {
     var parentDiv = document.getElementById(divId);
+    console.log(parentDiv);
     var folderTable = parentDiv.querySelector("#folderTable");
 
     var folder = getPath(divId);
@@ -9,12 +10,12 @@ async function buildFolder(divId) {
     clearTable(folderTable);
     chosenItems = [];
 
-    var response = await callEndpoint("GET", `/main/ls?folder=${folder}`);
+    var response = await callEndpoint("GET", `/main/ls?path=${folder}`);
     if (response.ERROR == null) {
         var folderItems = response.FOLDER;
         
         if (folderItems.length == 0) {
-            var response2 = await callEndpoint("GET", `/main/exists?file=${folder}`)
+            var response2 = await callEndpoint("GET", `/main/exists?path=${folder}`)
             if (response2.ERROR == null) {
                 if (!response2.EXISTS) {
                     showWrongAlert("Not found", "Folder was not found", alertTime);
@@ -70,7 +71,7 @@ async function buildFolder(divId) {
 function setFoldersCookies() {
     var foldersString = "";
     for (var i = 0; i < folders.length; i++) {
-        foldersString += folders[i].PATH + ",";
+        foldersString += folders[i].PATH + "|" + folders[i].ROOT + ",";
     }
     foldersString = foldersString.substring(0, foldersString.length - 1);
     setCookie("openFolders", foldersString, 300);

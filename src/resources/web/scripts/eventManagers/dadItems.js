@@ -86,7 +86,7 @@ function dadItemsLeave(e) {
 
 function prepareCopyRequest(pastePath) {
     return {
-        "FOLDER": pastePath,
+        "PATH": pastePath,
         "ITEMS": copiedPaths
     }
 }

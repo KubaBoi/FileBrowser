@@ -6,7 +6,7 @@ async function buildTree(divId) {
     clearTable(treeTable);
     chosenItems = [];
 
-    var response = await callEndpoint("GET", "/main/ls?folder=/");
+    var response = await callEndpoint("GET", `/main/ls?path=${getRoot(divId)}`);
     if (response.ERROR == null) {
         var treeItems = response.FOLDER;
 
@@ -31,7 +31,7 @@ async function buildBranch(e) {
     }
 
     var path = getTreePath(e);
-    var response = await callEndpoint("GET", `/main/ls?folder=${path}`);
+    var response = await callEndpoint("GET", `/main/ls?path=${path}`);
     if (response.ERROR == null) {
         var newUL = createElement("ul", parent);
         var treeItems = response.FOLDER;
@@ -96,7 +96,7 @@ async function createFavorites(divId) {
                     {"name": "onclick", "value": `sglC(function(){moveDirectFromTree("${"treeSpan" + id}");})`},
                     {"name": "id", "value": "treeSpan" + id},
                     {"name": "value", "value": item.PATH},
-                    {"name": "title", "value": "C:\\" + item.PATH}
+                    {"name": "title", "value": getRoot(divId) + item.PATH}
                 ]
             );
         }

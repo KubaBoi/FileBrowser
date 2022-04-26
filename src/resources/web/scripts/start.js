@@ -1,7 +1,7 @@
 var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
-var debug = true;
+var debug = false;
 
 var alertTime = 3000;
 
@@ -23,13 +23,15 @@ async function start() {
     var response = await callEndpoint("GET", "/main/init");
     if (response.ERROR == null) {
         foldersCookies = getCookie("openFolders");
+        foldersCookies = "";
         if (foldersCookies == "") {
-            openFolder(response.PATH);
+            openFolder(response.PATH, response.ROOT);
         }
         else {
             foldersCookiesArray = foldersCookies.split(",");
             for (var i = 0; i < foldersCookiesArray.length; i++) {
-                openFolder(foldersCookiesArray[i]);
+                foldRoot = foldersCookiesArray[i].split("|");
+                openFolder(foldRoot[0], foldRoot[1]);
             }
         }
 

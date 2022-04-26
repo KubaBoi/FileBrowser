@@ -41,7 +41,7 @@ class CheeseHandler(BaseHTTPRequestHandler):
             return
         try:
             path = CheeseController.getPath(self.path)
-            auth = Authorization.authorize(self, path, "GET")
+            auth = Authorization.authorize(self, self.path, "GET")
             if (auth == -1): 
                 CheeseController.sendResponse(self, Error.BadToken)
                 return

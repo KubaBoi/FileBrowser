@@ -4,7 +4,7 @@ async function openAs() {
     var parent = findParent(itemForFloatMenu);
     var path = getPath(parent.id);
 
-    var response = await callEndpoint("GET", `/file/openAs?file=${path}\\${itemForFloatMenu.innerHTML}`);
+    var response = await callEndpoint("GET", `/file/openAs?path=${path}\\${itemForFloatMenu.innerHTML}`);
     if (response.ERROR != null) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
@@ -43,6 +43,7 @@ async function reallyRemove(chosIts) {
     var path = getPath(parent.id);
 
     var request = {
+        "PATH": path,
         "FILES": []
     }
 
@@ -95,7 +96,7 @@ async function rename() {
 
     if (newName == fileNameOriginal) return;
 
-    var response = await callEndpoint("GET", `/file/rename?file=${path}\\${fileNameOriginal}&newName=${newName}`);
+    var response = await callEndpoint("GET", `/file/rename?path=${path}\\${fileNameOriginal}&newName=${newName}`);
     if (response.ERROR != null) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
@@ -109,7 +110,7 @@ async function properties() {
     var parent = findParent(itemForFloatMenu);
     var path = getPath(parent.id);
 
-    var response = await callEndpoint("GET", `/file/properties?file=${path}\\${itemForFloatMenu.innerHTML}`);
+    var response = await callEndpoint("GET", `/file/properties?path=${path}\\${itemForFloatMenu.innerHTML}`);
     if (response.ERROR != null) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }

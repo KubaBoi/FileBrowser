@@ -3,7 +3,6 @@
 
 import os
 import sys
-import html
 from subprocess import Popen, PIPE
 import shutil
 from send2trash import send2trash
@@ -27,11 +26,11 @@ class FileController(cc):
 
         args = cc.readArgs(server)
 
-        if (not cc.validateJson(["FOLDER", "ITEMS"], args)):
+        if (not cc.validateJson(["PATH", "ITEMS"], args)):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        folder = args["FOLDER"]
+        folder = args["PATH"]
         items = args["ITEMS"]
 
         if (not os.path.exists(folder)):
@@ -56,11 +55,11 @@ class FileController(cc):
 
         args = cc.readArgs(server)
 
-        if (not cc.validateJson(["FOLDER", "ITEMS"], args)):
+        if (not cc.validateJson(["PATH", "ITEMS"], args)):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        folder = args["FOLDER"]
+        folder = args["PATH"]
         items = args["ITEMS"]
 
         if (not os.path.exists(folder)):
@@ -89,11 +88,11 @@ class FileController(cc):
 
         args = cc.getArgs(path)
 
-        if (not cc.validateJson(["file"], args)):
+        if (not cc.validateJson(["path"], args)):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        file = args["file"]
+        file = args["path"]
 
         if (not os.path.exists(file)):
             Error.sendCustomError(server, "Folder not found", 404)
@@ -116,11 +115,12 @@ class FileController(cc):
 
         args = cc.readArgs(server)
 
-        if (not cc.validateJson(["FILES"], args)):
+        if (not cc.validateJson(["PATH", "FILES"], args)):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
         files = args["FILES"]
+        path = args["PATH"]
 
         for file in files:
             send2trash(file)
@@ -137,11 +137,11 @@ class FileController(cc):
 
         args = cc.getArgs(path)
 
-        if (not cc.validateJson(["file", "newName"], args)):
+        if (not cc.validateJson(["path", "newName"], args)):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        file = args["file"]
+        file = args["path"]
         newName = args["newName"]
 
         if (not os.path.exists(file)):
@@ -162,11 +162,11 @@ class FileController(cc):
 
         args = cc.getArgs(path)
 
-        if (not cc.validateJson(["file"], args)):
+        if (not cc.validateJson(["path"], args)):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        file = args["file"]
+        file = args["path"]
 
         if (not os.path.exists(file)):
             Error.sendCustomError(server, "File not found", 404)

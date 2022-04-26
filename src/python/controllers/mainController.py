@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import subprocess
 import os
 
 from cheese.ErrorCodes import Error
 from cheese.resourceManager import ResMan
+from cheese.appSettings import Settings
 from cheese.modules.cheeseController import CheeseController as cc
 
 from python.repositories.favoritesRepository import FavoritesRepository
@@ -22,9 +22,10 @@ class MainController(cc):
 			Error.sendCustomError(server, "Unauthorized", 401)
 			return
 
-		homeFolder = "C:\\Users\\Jakub Anderle\\Downloads"
+		homeFolder = Settings.settings["initPath"]
+		root = Settings.settings["root"]
 
-		response = cc.createResponse({"PATH": homeFolder}, 200)
+		response = cc.createResponse({"ROOT": root, "PATH": homeFolder}, 200)
 		cc.sendResponse(server, response)
 
 	#@get /ls
@@ -36,11 +37,11 @@ class MainController(cc):
 
 		args = cc.getArgs(path)
 
-		if (not cc.validateJson(['folder'], args)):
+		if (not cc.validateJson(["path"], args)):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		folder = args["folder"]
+		folder = args["path"]
 
 		jsonResponse = {}
 		jsonResponse["FOLDER"] = []
@@ -82,11 +83,11 @@ class MainController(cc):
 
 		args = cc.getArgs(path)
 
-		if (not cc.validateJson(['file'], args)):
+		if (not cc.validateJson(["path"], args)):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		file = args["file"]
+		file = args["path"]
 
 		os.startfile(file)
 
@@ -102,11 +103,11 @@ class MainController(cc):
 
 		args = cc.getArgs(path)
 
-		if (not cc.validateJson(['file'], args)):
+		if (not cc.validateJson(["path"], args)):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		file = args["file"]
+		file = args["path"]
 
 		response = cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
 		cc.sendResponse(server, response)
@@ -121,11 +122,11 @@ class MainController(cc):
 
 		args = cc.getArgs(path)
 
-		if (not cc.validateJson(['file'], args)):
+		if (not cc.validateJson(["path"], args)):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		file = args["file"]
+		file = args["path"]
 
 		response = cc.createResponse({'FILE': {'NAME': 'str', 'CONTENT': 'str'}}, 200)
 		cc.sendResponse(server, response)
