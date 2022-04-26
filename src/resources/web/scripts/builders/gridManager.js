@@ -32,24 +32,43 @@ var gridStyles = [
         ["25% 25% 25% 25%", "50% 50%", '"fold2 fold3 fold4 fold1" "fold5 fold6 fold7 fold8"']
     ],
     [ // left
-    ["100%", "100%", '"fold1"'],
-    ["50% 50%", "100%", '"fold1 fold2"'],
-    ["50% 50%", "50% 50%", '"fold1 fold2" "fold1 fold3"'],
-    ["50% 50%", "33% 33% 33%", '"fold1 fold2" "fold1 fold3" "fold1 fold4"'],
-    ["33% 33% 33%", "50% 50%", '"fold1 fold2 fold3" "fold1 fold4 fold5"'],
-    ["33% 33% 33%", "33% 33% 33%", '"fold1 fold2 fold2" "fold1 fold3 fold4" "fold1 fold5 fold6"'],
-    ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold1 fold5 fold6 fold7"'],
-    ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
+        ["100%", "100%", '"fold1"'],
+        ["50% 50%", "100%", '"fold1 fold2"'],
+        ["50% 50%", "50% 50%", '"fold1 fold2" "fold1 fold3"'],
+        ["50% 50%", "33% 33% 33%", '"fold1 fold2" "fold1 fold3" "fold1 fold4"'],
+        ["33% 33% 33%", "50% 50%", '"fold1 fold2 fold3" "fold1 fold4 fold5"'],
+        ["33% 33% 33%", "33% 33% 33%", '"fold1 fold2 fold2" "fold1 fold3 fold4" "fold1 fold5 fold6"'],
+        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold1 fold5 fold6 fold7"'],
+        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
     ]
 ]
 
-function setGridStyle(style) {
-    gridStyle = style;
+function setGridStyle(imgId) {    
+    setCookie("gridType", imgId, 300);
+
+    var gridStylesImgs = document.body.getElementsByClassName("clickableImg");
+    for (var i = 0; i < gridStylesImgs.length; i++) {
+        var item = gridStylesImgs[i];
+        item.classList.remove("chosenGridStyle");
+    }
+    var img = document.getElementById(imgId);
+    img.classList.add("chosenGridStyle");
+    gridStyle = img.getAttribute("value");
+
     doGrid();
 }
 
-function doGrid() {
+function setGridCookies() {
+    var foldersString = "";
+    for (var i = 0; i < folders.length; i++) {
+        foldersString += folders[i].PATH + ",";
+    }
+    foldersString = foldersString.substring(0, foldersString.length - 1);
+    setCookie("openFolders", foldersString, 300);
+}
 
+function doGrid() {
+    setGridCookies();
     switch (folders.length) {
         case 1: 
             changeGrid();
