@@ -18,6 +18,7 @@ async function buildFolder(divId) {
             if (response2.ERROR == null) {
                 if (!response2.EXISTS) {
                     showWrongAlert("Not found", "Folder was not found", alertTime);
+                    folderTable.innerHTML = "Folder was not found";
                     return;
                 }
             } 

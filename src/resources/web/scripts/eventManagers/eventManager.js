@@ -126,8 +126,15 @@ window.oncontextmenu = function (e)
     itemForFloatMenu = e.target;
 
     var r = document.querySelector(":root");
-    r.style.setProperty("--floatingMenuPositionX", e.clientX + "px");
-    r.style.setProperty("--floatingMenuPositionY", (e.clientY + 15) + "px");
+
+    var x = e.clientX;
+    if (e.clientX >= document.body.scrollWidth - 200) x = e.clientX - 150;
+
+    var y = e.clientY + 15;
+    if (e.clientY >= document.body.scrollHeight - 300) y = e.clientY - 285;
+    
+    r.style.setProperty("--floatingMenuPositionX", x + "px");
+    r.style.setProperty("--floatingMenuPositionY", y + "px");
 
     var floatingFileMenu = document.getElementById("fileMenuTable");
     floatingFileMenu.classList.add("floatingMenuShow");

@@ -9,12 +9,12 @@
 
 ## TODO
 
-- [ ] float menu muze vylezt mimo obrazovku
+- [x] float menu muze vylezt mimo obrazovku
 - [ ] pripojeni na FrogieCloudos
 - [ ] dragAndDrop pro okna
     - [ ] mozna udelat dalsi moznost gridStyle pro free movement
         - po rozdeleni do gridu ulozit pozice oken, zrusit grid a nastavit pozice oken z ulozenych hodnot?
-- [ ] oznacit not found okna
+- [x] oznacit not found okna
 
 ## kill process
 
