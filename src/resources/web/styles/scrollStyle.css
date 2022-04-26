@@ -5,7 +5,6 @@
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: var(--main-color);
   }
   
   /* Handle */
