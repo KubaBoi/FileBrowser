@@ -1,3 +1,3 @@
 ﻿# FileBrowser
 
-Need to create file "C:\FileBrowserCookies"
+Need to create folder "C:\FileBrowserCookies"
