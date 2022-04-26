@@ -18,18 +18,6 @@ async function buildFolder(divId) {
             {"text": "Size", "attributes":[]}
         ],[]);
 
-        addRow(folderTable, [
-            {"text": "<img src='images/up.png'>"},
-            {"text": "..", "attributes": [
-                {"name": "class", "value": "folder"},
-                {"name": "id", "value": "row-1"}
-            ]},
-            {"text": "", "attributes": []}
-        ],
-        [
-            {"name": "ondblclick", "value": "moveUp(this)"}
-        ]);
-
         for (let i = 0; i < folderItems.length; i++) {
             var item = folderItems[i];
 

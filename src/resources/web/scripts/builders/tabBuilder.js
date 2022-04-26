@@ -32,7 +32,7 @@ async function openFolder(path) {
 }
 
 function closeTab(e) {
-    var parent = e.parentNode.parentNode;
+    var parent = findParent(e);
     
     for (var i = 0; i < folders.length; i++) {
         if (folders[i].DIV_ID == parent.id) {

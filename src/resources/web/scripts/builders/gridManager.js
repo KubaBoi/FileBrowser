@@ -23,13 +23,23 @@ var gridStyles = [
     ],
     [ // right
         ["100%", "100%", '"fold1"'],
-        ["50% 50%", "100%", '"fold1 fold2"'],
+        ["50% 50%", "100%", '"fold2 fold1"'],
         ["50% 50%", "50% 50%", '"fold2 fold1" "fold3 fold1"'],
         ["50% 50%", "33% 33% 33%", '"fold2 fold1" "fold3 fold1" "fold4 fold1"'],
-        ["33% 33% 33%", "50% 50%", '"fold1 fold1 fold2" "fold3 fold4 fold5"'],
-        ["33% 33% 33%", "50% 50%", '"fold1 fold2 fold3" "fold4 fold5 fold6"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold1 fold2 fold3" "fold4 fold5 fold6 fold7"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
+        ["33% 33% 33%", "50% 50%", '"fold2 fold3 fold1" "fold4 fold5 fold1"'],
+        ["33% 33% 33%", "33% 33% 33%", '"fold2 fold2 fold1" "fold3 fold4 fold1" "fold5 fold6 fold1"'],
+        ["25% 25% 25% 25%", "50% 50%", '"fold2 fold3 fold4 fold1" "fold5 fold6 fold7 fold1"'],
+        ["25% 25% 25% 25%", "50% 50%", '"fold2 fold3 fold4 fold1" "fold5 fold6 fold7 fold8"']
+    ],
+    [ // left
+    ["100%", "100%", '"fold1"'],
+    ["50% 50%", "100%", '"fold1 fold2"'],
+    ["50% 50%", "50% 50%", '"fold1 fold2" "fold1 fold3"'],
+    ["50% 50%", "33% 33% 33%", '"fold1 fold2" "fold1 fold3" "fold1 fold4"'],
+    ["33% 33% 33%", "50% 50%", '"fold1 fold2 fold3" "fold1 fold4 fold5"'],
+    ["33% 33% 33%", "33% 33% 33%", '"fold1 fold2 fold2" "fold1 fold3 fold4" "fold1 fold5 fold6"'],
+    ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold1 fold5 fold6 fold7"'],
+    ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
     ]
 ]
 

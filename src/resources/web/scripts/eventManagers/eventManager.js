@@ -1,4 +1,53 @@
 
+function copyDirectory(e) {
+    var parent = findParent(e);
+    var path = getPath(parent.id);
+    navigator.clipboard.writeText(path);
+    showOkAlert("Copied :)", `${path} was saved in clipboard`, 1000);
+}
+
+var fcc = false;
+function editPathDialog(e) {
+    var parent = findParent(e);
+    var label = parent.querySelector("#folderPathLabel");
+    var path = label.innerHTML;
+    if (path.startsWith("<")) return;
+    label.innerHTML = "";
+
+    var inp = createElement("input", label, "", 
+    [
+        {"name": "value", "value": path},
+        {"name": "oninput", "value": "this.size = this.value.length"},
+        {"name": "id", "value": "editPathInp"}
+    ]);
+    inp.setAttribute("size", inp.value.length);
+    fcc = true;
+}
+
+function editPath(e) {
+    try {
+        var parent = findParent(e);
+    }
+    catch {
+        return;
+    }
+    var label = parent.querySelector("#folderPathLabel");
+    var editInp = parent.querySelector("#editPathInp");
+    var path = label.innerHTML;
+    
+    if (e == editInp) return;
+    if (fcc) {
+        fcc = false;
+        return;
+    } 
+    
+    if (path.startsWith("<")) {
+        path = editInp.value;
+        changePath(parent.id, path);
+        buildFolder(parent.id);
+    }
+}
+
 function chooseItem(id) {
     var item = document.getElementById(id);
     if (doesRenamingExists()) {
@@ -16,12 +65,14 @@ function chooseItem(id) {
     chosenItems.push(id);
 }
 
-function unChooseItems(element) {
+function unChooseItems(element, overCrtl=false) {
+
+    editPath(element);
 
     var floatingFileMenu = document.getElementById("fileMenuTable");
     floatingFileMenu.classList.remove("floatingMenuShow");
 
-    if (window.event.ctrlKey) return;
+    if (window.event.ctrlKey && !overCrtl) return;
     
     for (let i = 0; i < chosenItems.length; i++) {
         var item = document.getElementById(chosenItems[i]);

@@ -2,15 +2,7 @@
 function dragStart(e) {
     if (e.target.nodeName == "DIV") {
         parentTree = findParent(e.target);
-        var allTrees = document.body.getElementsByClassName("treeDiv");
-        for (var i = 0; i < allTrees.length; i++) {
-            var testedParent = findParent(allTrees[i]);
-            if (testedParent == parentTree) {
-                parentTree = allTrees[i];
-                console.log(parentTree);
-                break;
-            }
-        }
+        parentTree = findByParent("class", "treeDiv", parentTree);
 
         resizeDefX = e.clientX - parseInt(getComputedStyle(parentTree).getPropertyValue("width").replace("px", ""));
         return;
@@ -92,7 +84,7 @@ async function drop(e) {
     var parent = findParent(e.target);
     var path = getPath(parent.getAttribute("id"));
 
-    unChooseItems(null);
+    unChooseItems(null, true);
 
     e.target.classList.remove("dragOver");
     if (e.target.classList.contains("folder")) {

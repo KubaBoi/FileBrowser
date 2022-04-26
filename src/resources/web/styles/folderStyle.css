@@ -44,8 +44,17 @@ hr {
     overflow-y: scroll;
 }
 
+.contentDiv label {
+    margin: 10px;
+}
+
 .sizerDiv {
     cursor: e-resize;
     width: 4px;
     background-color: var(--main-color);
+}
+
+.closeImg {
+    position: relative;
+    right: 0px;
 }
