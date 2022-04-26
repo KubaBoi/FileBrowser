@@ -4,7 +4,7 @@ async function openFile(e, file) {
 
     var response = await callEndpoint("GET", `/main/open?file=${path}\\${file}`);
     if (response.ERROR != null) {
-        showAlert("ERROR", response.ERROR);
+        showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }
 
@@ -21,4 +21,14 @@ function getTreePath(e) {
     }
 
     return "C:" + path;
+}
+
+async function openCmd(e) {
+    var parent = findParent(e);
+    var path = getPath(parent.id);
+
+    var response = await callEndpoint("GET", `/main/cmd?path=${path}`);
+    if (response.ERROR != null) {
+        showWrongAlert("ERROR", response.ERROR, alertTime);
+    }
 }
