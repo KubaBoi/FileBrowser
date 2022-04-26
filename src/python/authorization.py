@@ -1,6 +1,5 @@
 
 from cheese.modules.cheeseController import CheeseController as cc
-from cheese.ErrorCodes import Error
 from cheese.appSettings import Settings
 
 #@authorization enabled
