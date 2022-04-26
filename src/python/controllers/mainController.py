@@ -39,7 +39,7 @@ class MainController(cc):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		folder = args["folder"].replace("%20", " ")
+		folder = args["folder"]
 
 		jsonResponse = {}
 		jsonResponse["FOLDER"] = []
@@ -85,7 +85,7 @@ class MainController(cc):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		file = args["file"].replace("%20", " ")
+		file = args["file"]
 
 		os.startfile(file)
 
@@ -105,7 +105,7 @@ class MainController(cc):
 			Error.sendCustomError(server, "Wrong json structure", 400)
 			return
 
-		file = args["file"].replace("%20", " ")
+		file = args["file"]
 
 		response = cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
 		cc.sendResponse(server, response)

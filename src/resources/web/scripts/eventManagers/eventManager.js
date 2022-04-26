@@ -114,11 +114,14 @@ window.oncontextmenu = function (e)
 {
     var elem = e.target;
     if (!elem.classList.contains("file") && 
-        !elem.classList.contains("folder") ||
+        !elem.classList.contains("folder") &&
+        !elem.classList.contains("contentDiv") ||
         elem.innerHTML == "..") 
         return;
 
-    chooseItem(e.target.id);
+    if (!elem.classList.contains("contentDiv")) {
+        chooseItem(e.target.id);
+    }
     if (!window.event.ctrlKey) unChooseItems(e.target);
     itemForFloatMenu = e.target;
 

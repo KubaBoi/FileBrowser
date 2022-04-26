@@ -3,6 +3,7 @@
 
 import os
 import sys
+import html
 from subprocess import Popen, PIPE
 import shutil
 from send2trash import send2trash
@@ -30,7 +31,7 @@ class FileController(cc):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        folder = args["FOLDER"].replace("%20", " ")
+        folder = args["FOLDER"]
         items = args["ITEMS"]
 
         if (not os.path.exists(folder)):
@@ -38,7 +39,6 @@ class FileController(cc):
             return
 
         for item in items:
-            item = item.replace("%20", " ")
             if (os.path.isfile(item)):
                 shutil.copy2(item, folder)
             elif (os.path.isdir(item)):
@@ -60,7 +60,7 @@ class FileController(cc):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        folder = args["FOLDER"].replace("%20", " ")
+        folder = args["FOLDER"]
         items = args["ITEMS"]
 
         if (not os.path.exists(folder)):
@@ -68,7 +68,6 @@ class FileController(cc):
             return
 
         for item in items:
-            item = item.replace("%20", " ")
             if (os.path.isfile(item)):
                 shutil.copy2(item, folder)
                 if (os.path.exists(os.path.join(folder, ResMan.getFileName(item)))):
@@ -94,7 +93,7 @@ class FileController(cc):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        file = args["file"].replace("%20", " ")
+        file = args["file"]
 
         if (not os.path.exists(file)):
             Error.sendCustomError(server, "Folder not found", 404)
@@ -142,8 +141,8 @@ class FileController(cc):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        file = args["file"].replace("%20", " ")
-        newName = args["newName"].replace("%20", " ")
+        file = args["file"]
+        newName = args["newName"]
 
         if (not os.path.exists(file)):
             Error.sendCustomError(server, "File not found", 404)
@@ -167,7 +166,7 @@ class FileController(cc):
             Error.sendCustomError(server, "Wrong json structure", 400)
             return
 
-        file = args["file"].replace("%20", " ")
+        file = args["file"]
 
         if (not os.path.exists(file)):
             Error.sendCustomError(server, "File not found", 404)
@@ -177,6 +176,69 @@ class FileController(cc):
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
+
+    #@get /mkdir
+    @staticmethod
+    def mkdir(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.getArgs(path)
+
+        if (not cc.validateJson(["path"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        folder = args["path"]
+
+        if (not os.path.exists(folder)):
+            Error.sendCustomError(server, "Folder not found", 404)
+            return
+
+        folderName = "New folder"
+        actFolderName = folderName
+        id = 0
+        while (os.path.exists(os.path.join(folder, actFolderName))):
+            id += 1
+            actFolderName = f"{folderName} ({str(id)})"
+
+        os.mkdir(os.path.join(folder, actFolderName))
+
+        response = cc.createResponse({"FOLDER": actFolderName}, 200)
+        cc.sendResponse(server, response)
+
+    #@get /write
+    @staticmethod
+    def write(server, path, auth):
+        if (auth["role"] > 0):
+            Error.sendCustomError(server, "Unauthorized", 401)
+            return
+
+        args = cc.getArgs(path)
+
+        if (not cc.validateJson(["path"], args)):
+            Error.sendCustomError(server, "Wrong json structure", 400)
+            return
+
+        folder = args["path"]
+
+        if (not os.path.exists(folder)):
+            Error.sendCustomError(server, "Folder not found", 404)
+            return
+
+        folderName = "New file"
+        actFolderName = folderName + ".txt"
+        id = 0
+        while (os.path.exists(os.path.join(folder, actFolderName))):
+            id += 1
+            actFolderName = f"{folderName} ({str(id)}).txt"
+
+        open(os.path.join(folder, actFolderName), "w")
+
+        response = cc.createResponse({"FILE": actFolderName}, 200)
+        cc.sendResponse(server, response)
+
 
 
 # METHODS

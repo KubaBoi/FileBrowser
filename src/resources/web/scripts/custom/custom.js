@@ -7,7 +7,6 @@ function findByParent(type, argument, parent) {
         var testedParent = findParent(allElements[i]);
         if (testedParent == parent) {
             return allElements[i];
-            break;
         }
     }
 }

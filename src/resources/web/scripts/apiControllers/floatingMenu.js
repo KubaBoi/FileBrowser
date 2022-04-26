@@ -1,4 +1,6 @@
 async function openAs() {
+    if (itemForFloatMenu.classList.contains("contentDiv")) return;
+
     var parent = findParent(itemForFloatMenu);
     var path = getPath(parent.id);
 
@@ -21,6 +23,8 @@ function openInTab() {
 }
 
 function remove() {
+    if (itemForFloatMenu.classList.contains("contentDiv")) return;
+
     var chosIts = [...chosenItems];
 
     var files = "";
@@ -57,6 +61,8 @@ async function reallyRemove(chosIts) {
 }
 
 function renameDialog() {
+    if (itemForFloatMenu.classList.contains("contentDiv")) return;
+
     fileNameOriginal = itemForFloatMenu.innerHTML;
     itemForFloatMenu.innerHTML = "";
 
@@ -65,12 +71,15 @@ function renameDialog() {
 
     renameDialogParent.setAttribute("draggable", "false");
 
-    createElement("input", itemForFloatMenu, "", 
+    var input = createElement("input", itemForFloatMenu, "", 
     [
         {"name": "value", "value": fileNameOriginal},
         {"name": "style", "value": "width:100%"},
         {"name": "id", "value": "renameInput"}
     ]);
+
+    input.focus();
+    input.select();
 }
 
 async function rename() {
@@ -95,6 +104,8 @@ async function rename() {
 }
 
 async function properties() {
+    if (itemForFloatMenu.classList.contains("contentDiv")) return;
+
     var parent = findParent(itemForFloatMenu);
     var path = getPath(parent.id);
 
@@ -104,10 +115,46 @@ async function properties() {
     }
 }
 
-function createNewFolder() {
-    console.log("NEW FOLDER");
+async function createNewFolder() {
+    var parent = findParent(itemForFloatMenu);
+    var path = getPath(parent.id);
+
+    var response = await callEndpoint("GET", `/file/mkdir?path=${path}`);
+    if (response.ERROR == null) {
+        var newFolderName = response.FOLDER;
+        buildFolder(parent.id);
+
+        setTimeout(function() {evokeRenaming(newFolderName, parent);}, 500);
+    }
+    else {
+        showWrongAlert("ERROR", response.ERROR, alertTime);
+    }
 }
 
-function createNewFile() {
-    console.log("NEW FILE");
+async function createNewFile() {
+    var parent = findParent(itemForFloatMenu);
+    var path = getPath(parent.id);
+
+    var response = await callEndpoint("GET", `/file/write?path=${path}`);
+    if (response.ERROR == null) {
+        var newFileName = response.FILE;
+        buildFolder(parent.id);
+
+        setTimeout(function() {evokeRenaming(newFileName, parent, "file");}, 500);
+    }
+    else {
+        showWrongAlert("ERROR", response.ERROR, alertTime);
+    }
+}
+
+function evokeRenaming(newName, parent, type="folder") {
+    const tds = parent.getElementsByClassName(type);
+    for (var i = 0; i < tds.length; i++) {
+        var td = tds[i];
+        if (td.innerHTML == newName) {
+            itemForFloatMenu = td;
+            renameDialog();
+            break;
+        }
+    }
 }
