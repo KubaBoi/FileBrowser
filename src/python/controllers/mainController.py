@@ -161,7 +161,8 @@ class MainController(cc):
 			Error.sendCustomError(server, "Folder not found", 404)
 			return
 
-		os.system(f"start cmd /K cd '{path}'")
+		command = f"start cmd /K cd \"{path}\""
+		os.system(command)
 
 		response = cc.createResponse({"STATUS": "ok"}, 200)
 		cc.sendResponse(server, response)
