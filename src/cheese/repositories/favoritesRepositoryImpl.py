@@ -62,6 +62,8 @@ class FavoritesRepositoryImpl:
         except Exception as e:
             Logger.fail("An error occurred while query request", str(e))
 
+            raise SystemError("An error occurred while query request", e)
+
         if (response == None): return response
         resp = []
         for a in response:
@@ -79,6 +81,8 @@ class FavoritesRepositoryImpl:
             db.done()
         except Exception as e:
             Logger.fail("An error occurred while query request", str(e))
+
+            raise SystemError("An error occurred while query request", e)
 
         if (response == None): return response
         if (len(response) > 0):
@@ -98,6 +102,8 @@ class FavoritesRepositoryImpl:
         except Exception as e:
             Logger.fail("An error occurred while query request", str(e))
 
+            raise SystemError("An error occurred while query request", e)
+
         if (response == None): return response
         resp = []
         for a in response:
@@ -114,6 +120,8 @@ class FavoritesRepositoryImpl:
             db.done()
         except Exception as e:
             Logger.fail("An error occurred while query request", str(e))
+
+            raise SystemError("An error occurred while query request", e)
 
         if (response == None): return response
         try: return int(response[0][0])

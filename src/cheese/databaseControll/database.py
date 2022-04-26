@@ -27,10 +27,7 @@ class Database:
         else:
             self.db = SQLServerDB()
 
-        try:
-            self.db.connect()
-        except:
-            Logger.fail("Cannot establish connection with database")
+        self.db.connect()
 
     # close connection with database
     def close(self):
@@ -42,17 +39,18 @@ class Database:
             self.connect()
             ret = self.db.query(sql)
             return ret
-        except:
-            Logger.fail("Cannot establish connection with database")
-            return None
+        except Exception as e:
+            Logger.fail("Cannot establish connection with database", e)
+            raise SystemError("Cannot establish connection with database")
 
     # insert, update ...
     def commit(self, sql):
         try:
             self.connect()
             self.db.commit(sql)
-        except:
-            Logger.fail("Cannot establish connection with database")
+        except Exception as e:
+            Logger.fail("Cannot establish connection with database", e)
+            raise SystemError("Cannot establish connection with database")
 
     # commit when done
     def done(self):

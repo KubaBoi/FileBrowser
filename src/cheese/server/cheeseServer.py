@@ -93,8 +93,15 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     CheeseController.serveFile(self, self.path)
         
         except Exception as e:
-            Logger.fail("An error unknown occurred", e)
-            Error.sendCustomError(self, "Internal server error :(", 500)
+            if (type(e) is SystemError):
+                Logger.fail("SystemError occurred", e)
+                error = e
+                while (len(error.args) > 1):
+                    error = error.args[-1]
+                Error.sendCustomError(self, error.args[0], 500)
+            else:
+                Logger.fail("An error unknown occurred", e)
+                Error.sendCustomError(self, "Internal server error :(", 500)
 
     def do_POST(self):
         self.__log()
@@ -119,8 +126,15 @@ class CheeseHandler(BaseHTTPRequestHandler):
                 Error.sendCustomError(self, "Endpoint not found :(", 404)
 
         except Exception as e:
-            Logger.fail("An error unknown occurred", e)
-            Error.sendCustomError(self, "Internal server error :(", 500)
+            if (type(e) is SystemError):
+                Logger.fail("SystemError occurred", e)
+                error = e
+                while (len(error.args) > 1):
+                    error = error.args[-1]
+                Error.sendCustomError(self, error.args[0], 500)
+            else:
+                Logger.fail("An error unknown occurred", e)
+                Error.sendCustomError(self, "Internal server error :(", 500)
 
     def end_headers(self):
         if (Settings.allowCORS):
