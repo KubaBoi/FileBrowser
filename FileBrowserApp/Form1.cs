@@ -16,6 +16,9 @@ namespace FileBrowserApp
     {
         public ChromiumWebBrowser chromeBrowser;
 
+        // path to directory 
+        string path = "C:\\FileBrowserCookies";
+
         public Form1()
         {
             InitializeComponent();
@@ -31,6 +34,10 @@ namespace FileBrowserApp
         public void InitializeChromium()
         {
             CefSettings settings = new CefSettings();
+
+            // Set the path 
+            settings.CachePath = path;
+
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
             // Create a browser component
