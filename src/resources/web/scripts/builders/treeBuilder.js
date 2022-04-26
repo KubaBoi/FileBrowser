@@ -6,18 +6,18 @@ async function buildTree(divId) {
     clearTable(treeTable);
     chosenItems = [];
 
-    var response = await callEndpoint("GET", `/main/ls?path=${getRoot(divId)}`);
+    var response = await callEndpoint("GET", `${getUrl(divId)}/main/ls?path=${getRoot(divId)}`);
     if (response.ERROR == null) {
         var treeItems = response.FOLDER;
 
-        createLis(treeTable, treeItems);
+        createLis(treeTable, treeItems, divId);
     }
     else {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }
 
-async function buildBranch(e) {
+async function buildBranch(e, divId) {
     var parent = e.parentNode;
 
     var childNodes = parent.childNodes;
@@ -31,16 +31,16 @@ async function buildBranch(e) {
     }
 
     var path = getTreePath(e);
-    var response = await callEndpoint("GET", `/main/ls?path=${path}`);
+    var response = await callEndpoint("GET", `${getUrl(divId)}/main/ls?path=${path}`);
     if (response.ERROR == null) {
         var newUL = createElement("ul", parent);
         var treeItems = response.FOLDER;
 
-        createLis(newUL, treeItems);
+        createLis(newUL, treeItems, divId);
     }
 }
 
-function createLis(parentUL, treeItems) {
+function createLis(parentUL, treeItems, divId) {
     for (let i = 0; i < treeItems.length; i++) {
         var item = treeItems[i];
 
@@ -57,7 +57,7 @@ function createLis(parentUL, treeItems) {
 
         createElement("span", newLI, stringShorter(item.NAME, 15),
             [
-                {"name": "ondblclick", "value": `buildBranch(this)`},
+                {"name": "ondblclick", "value": `buildBranch(this, ${divId})`},
                 {"name": "onclick", "value": `sglC(function(){moveDirectFromTree("${"treeSpan" + id}");})`},
                 {"name": "id", "value": "treeSpan" + id},
                 {"name": "value", "value": item.NAME},
@@ -70,8 +70,9 @@ function createLis(parentUL, treeItems) {
 async function createFavorites(divId) {
     var parentDiv = document.getElementById(divId);
     var treeTableFavorites = parentDiv.querySelector("#treeTableFavorites");
-
     clearTable(treeTableFavorites);
+    if (getUrl(divId) != "") return;
+
     createElement("label", treeTableFavorites, "Favorites &#9733;");
 
     var response = await callEndpoint("GET", "/main/favorites");

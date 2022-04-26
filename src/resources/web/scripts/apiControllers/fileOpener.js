@@ -1,5 +1,6 @@
 async function openFile(e, file) {
     var parent = findParent(e);
+    if (getUrl(parent.id) != "") return;
     var path = getPath(parent.id);
 
     var response = await callEndpoint("GET", `/main/open?path=${path}\\${file}`);
@@ -25,6 +26,7 @@ function getTreePath(e) {
 
 async function openCmd(e) {
     var parent = findParent(e);
+    if (getUrl(parent.id) != "") return;
     var path = getPath(parent.id);
 
     var response = await callEndpoint("GET", `/main/cmd?path=${path}`);
@@ -35,6 +37,7 @@ async function openCmd(e) {
 
 async function openCode(e) {
     var parent = findParent(e);
+    if (getUrl(parent.id) != "") return;
     var path = getPath(parent.id);
 
     var response = await callEndpoint("GET", `/main/code?path=${path}`);

@@ -22,7 +22,7 @@
         },
         {
             "method": "GET",
-            "path": "/main/favorite"
+            "path": "/main/favorites"
         }
     ]
 

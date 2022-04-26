@@ -1,18 +1,22 @@
-async function openFolder(path, root) {
+async function openFolder(path, root, url="") {
     if (folders.length == 8) {
         showWrongAlert("Slow down", "That's too much, man<br>Close something boy", alertTime);
         return;
     }
 
-    var div = await getHtml("window", "", "windowsDiv", "window");
+    var divName = "window";
+    if (url != "") {
+        divName = "windowRemote";
+    }
+    var div = await getHtml(divName, "", "windowsDiv", "window");
     if (div == null) {
         showAlert("ERROR", "Error while creating div");
         return;
     } else {
         var id = 0;
-        while (document.getElementById("windowDiv" + id) != null) id++;
+        while (document.getElementById(`${divName}Div${id}`) != null) id++;
 
-        var divId = "windowDiv" + id;
+        var divId = `${divName}Div${id}`;
 
         div.setAttribute("id", divId);
 
@@ -26,7 +30,8 @@ async function openFolder(path, root) {
             {
                 "PATH": path,
                 "DIV_ID": divId,
-                "ROOT": root
+                "ROOT": root,
+                "URL": url
             }
         );
         
@@ -75,6 +80,13 @@ function getRoot(divId) {
     return null;
 }
 
+function getUrl(divId) {
+    for (var i = 0; i < folders.length; i++) {
+        if (folders[i].DIV_ID == divId) return folders[i].URL;
+    }
+    return null;
+}
+
 function changePath(divId, newPath) {
     for (var i = 0; i < folders.length; i++) {
         if (folders[i].DIV_ID == divId) {
@@ -95,10 +107,20 @@ async function openNewTab() {
     }
 }
 
+async function openNewRemoteTab() {
+    var response = await callEndpoint("GET", `${remoteUrl}/main/init`);
+    if (response.ERROR == null) {
+        openFolder(response.PATH, response.ROOT, remoteUrl);
+    }
+    else {
+        showWrongAlert("ERROR", response.ERROR, alertTime);
+    }
+}
+
 function findParent(self) {
     var parent = self.parentNode;
 
-    while (!parent.id.startsWith("windowDiv")) {
+    while (!parent.id.startsWith("windowDiv") && !parent.id.startsWith("windowRemoteDiv")) {
         parent = parent.parentNode;
     }
 

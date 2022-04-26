@@ -12,7 +12,10 @@ function move(e, path) {
 function moveIn(e, folderName) {
     var parent = findParent(e);
     var path = getPath(parent.id);
-    path += "\\" + folderName;
+
+    if (getUrl(parent.id) == "") path += "\\";
+    else path += "/";
+    path += folderName;
     
     if (changePath(parent.id, path)) {
         buildFolder(parent.id);
@@ -41,13 +44,21 @@ function moveDirectFromTree(id) {
 }
 
 function getFolder(fldr) {
-    folderSplit = fldr.split("\\");
+    var newFldr = splitPath(fldr);
+    if (newFldr == "") {
+        newFldr = splitPath(fldr, "/");
+    }
+    return newFldr;
+}
+
+function splitPath(fldr, delimiter="\\") {
+    folderSplit = fldr.split(delimiter);
     fldr = "";
     for (let i = 0; i < folderSplit.length-1; i++) {
         fldr += folderSplit[i];
         if (i < folderSplit.length-2) {
-            fldr += "\\";
+            fldr += delimiter;
         }
     }
     return fldr;
-}
+} 

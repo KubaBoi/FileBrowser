@@ -2,6 +2,7 @@ async function openAs() {
     if (itemForFloatMenu.classList.contains("contentDiv")) return;
 
     var parent = findParent(itemForFloatMenu);
+    if (getUrl(parent.id) != "") return;
     var path = getPath(parent.id);
 
     var response = await callEndpoint("GET", `/file/openAs?path=${path}\\${itemForFloatMenu.innerHTML}`);
@@ -15,7 +16,11 @@ function openInTab() {
     var path = getPath(parent.id);
 
     if (itemForFloatMenu.classList.contains("folder")) {
-        openFolder(path + "\\" + itemForFloatMenu.innerHTML);
+        if (getUrl(parent.id) == "") {
+            openFolder(path + "\\" + itemForFloatMenu.innerHTML);
+        } else {
+            openFolder(path + "/" + itemForFloatMenu.innerHTML);
+        }
     }
     else {
         openFolder(path);
@@ -49,10 +54,14 @@ async function reallyRemove(chosIts) {
 
     for (var i = 0; i < chosIts.length; i++) {
         var item = document.getElementById(chosIts[i]);
-        request.FILES.push(path + "\\" + item.innerHTML);
+        if (getUrl(parent.id) == "") {
+            request.FILES.push(path + "\\" + item.innerHTML);
+        } else {
+            request.FILES.push(path + "/" + item.innerHTML);
+        }
     }
 
-    var response = await callEndpoint("POST", "/file/remove", request);
+    var response = await callEndpoint("POST", `${getUrl(parent.id)}/file/remove`, request);
     if (response.ERROR != null) {
         showAlert("ERROR", response.ERROR)
     }
@@ -96,7 +105,7 @@ async function rename() {
 
     if (newName == fileNameOriginal) return;
 
-    var response = await callEndpoint("GET", `/file/rename?path=${path}\\${fileNameOriginal}&newName=${newName}`);
+    var response = await callEndpoint("GET", `${getUrl(parent.id)}/file/rename?path=${path}\\${fileNameOriginal}&newName=${newName}`);
     if (response.ERROR != null) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
@@ -108,6 +117,7 @@ async function properties() {
     if (itemForFloatMenu.classList.contains("contentDiv")) return;
 
     var parent = findParent(itemForFloatMenu);
+    if (getUrl(parent.id) != "") return;
     var path = getPath(parent.id);
 
     var response = await callEndpoint("GET", `/file/properties?path=${path}\\${itemForFloatMenu.innerHTML}`);
@@ -120,7 +130,7 @@ async function createNewFolder() {
     var parent = findParent(itemForFloatMenu);
     var path = getPath(parent.id);
 
-    var response = await callEndpoint("GET", `/file/mkdir?path=${path}`);
+    var response = await callEndpoint("GET", `${getUrl(parent.id)}/file/mkdir?path=${path}`);
     if (response.ERROR == null) {
         var newFolderName = response.FOLDER;
         buildFolder(parent.id);
@@ -136,7 +146,7 @@ async function createNewFile() {
     var parent = findParent(itemForFloatMenu);
     var path = getPath(parent.id);
 
-    var response = await callEndpoint("GET", `/file/write?path=${path}`);
+    var response = await callEndpoint("GET", `${getUrl(parent.id)}/file/write?path=${path}`);
     if (response.ERROR == null) {
         var newFileName = response.FILE;
         buildFolder(parent.id);

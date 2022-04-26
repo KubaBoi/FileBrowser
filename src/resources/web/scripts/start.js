@@ -1,9 +1,11 @@
 var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
-var debug = true;
+var debug = false;
 
 var alertTime = 3000;
+
+var remoteUrl = "http://frogie.cz:7999";
 
 var startArray = [
     "menu",
@@ -23,6 +25,7 @@ async function start() {
     var response = await callEndpoint("GET", "/main/init");
     if (response.ERROR == null) {
         foldersCookies = getCookie("openFolders");
+        //foldersCookies = "";
         if (foldersCookies == "") {
             openFolder(response.PATH, response.ROOT);
         }
@@ -30,7 +33,7 @@ async function start() {
             foldersCookiesArray = foldersCookies.split(",");
             for (var i = 0; i < foldersCookiesArray.length; i++) {
                 foldRoot = foldersCookiesArray[i].split("|");
-                openFolder(foldRoot[0], foldRoot[1]);
+                openFolder(foldRoot[0], foldRoot[1], foldRoot[2]);
             }
         }
 
