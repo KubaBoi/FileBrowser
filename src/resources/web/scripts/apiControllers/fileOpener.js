@@ -32,3 +32,13 @@ async function openCmd(e) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }
+
+async function openCode(e) {
+    var parent = findParent(e);
+    var path = getPath(parent.id);
+
+    var response = await callEndpoint("GET", `/main/code?path=${path}`);
+    if (response.ERROR != null) {
+        showWrongAlert("ERROR", response.ERROR, alertTime);
+    }
+}

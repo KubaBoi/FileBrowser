@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import subprocess
 import os
 
 from cheese.ErrorCodes import Error
@@ -162,6 +163,30 @@ class MainController(cc):
 			return
 
 		command = f"start cmd /K cd \"{path}\""
+		os.system(command)
+
+		response = cc.createResponse({"STATUS": "ok"}, 200)
+		cc.sendResponse(server, response)
+
+	#@get /code
+	@staticmethod
+	def code(server, path, auth):
+		if (auth["role"] > 0):
+			Error.sendCustomError(server, "Unauthorized", 401)
+			return
+
+		args = cc.getArgs(path)
+
+		if (not cc.validateJson(['path'], args)):
+			Error.sendCustomError(server, "Wrong json structure", 400)
+			return
+
+		path = args["path"]
+		if (not os.path.exists(path)):	
+			Error.sendCustomError(server, "Folder not found", 404)
+			return
+
+		command = f"code -n \"{path}\""
 		os.system(command)
 
 		response = cc.createResponse({"STATUS": "ok"}, 200)

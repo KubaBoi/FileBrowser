@@ -79,6 +79,8 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     MainController.favorites(self, self.path, auth)
                 elif (path.startswith("/main/cmd")):
                     MainController.file(self, self.path, auth)
+                elif (path.startswith("/main/code")):
+                    MainController.code(self, self.path, auth)
                 else:
                     if (self.path.endswith(".css")):
                         CheeseController.serveFile(self, self.path, "text/css")
