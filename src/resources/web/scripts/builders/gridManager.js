@@ -2,44 +2,44 @@
 var gridStyle = 0;
 var gridStyles = [
     [ // normal
-        ["100%", "100%", '"fold1"'],
-        ["50% 50%", "100%", '"fold1 fold2"'],
-        ["50% 50%", "50% 50%", '"fold1 fold2" "fold3 fold3"'],
-        ["50% 50%", "50% 50%", '"fold1 fold2" "fold3 fold4"'],
-        ["33% 33% 33%", "50% 50%", '"fold1 fold1 fold2" "fold3 fold4 fold5"'],
-        ["33% 33% 33%", "50% 50%", '"fold1 fold2 fold3" "fold4 fold5 fold6"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold1 fold2 fold3" "fold4 fold5 fold6 fold7"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
+        ["100%", "100%", '"win1"'],
+        ["50% 50%", "100%", '"win1 win2"'],
+        ["50% 50%", "50% 50%", '"win1 win2" "win3 win3"'],
+        ["50% 50%", "50% 50%", '"win1 win2" "win3 win4"'],
+        ["33% 33% 33%", "50% 50%", '"win1 win1 win2" "win3 win4 win5"'],
+        ["33% 33% 33%", "50% 50%", '"win1 win2 win3" "win4 win5 win6"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win1 win2 win3" "win4 win5 win6 win7"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win2 win3 win4" "win5 win6 win7 win8"']
     ],
     [ // top
-        ["100%", "100%", '"fold1"'],
-        ["100%", "50% 50%", '"fold1" "fold2"'],
-        ["50% 50%", "50% 50%", '"fold1 fold1" "fold2 fold3"'],
-        ["33% 33% 33%", "50% 50%", '"fold1 fold1 fold1" "fold2 fold3 fold4"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold1 fold1 fold1" "fold2 fold3 fold4 fold5"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold1 fold1 fold2" "fold3 fold4 fold5 fold6"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold1 fold2 fold3" "fold4 fold5 fold6 fold7"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
+        ["100%", "100%", '"win1"'],
+        ["100%", "50% 50%", '"win1" "win2"'],
+        ["50% 50%", "50% 50%", '"win1 win1" "win2 win3"'],
+        ["33% 33% 33%", "50% 50%", '"win1 win1 win1" "win2 win3 win4"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win1 win1 win1" "win2 win3 win4 win5"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win1 win1 win2" "win3 win4 win5 win6"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win1 win2 win3" "win4 win5 win6 win7"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win2 win3 win4" "win5 win6 win7 win8"']
     ],
     [ // right
-        ["100%", "100%", '"fold1"'],
-        ["50% 50%", "100%", '"fold2 fold1"'],
-        ["50% 50%", "50% 50%", '"fold2 fold1" "fold3 fold1"'],
-        ["50% 50%", "33% 33% 33%", '"fold2 fold1" "fold3 fold1" "fold4 fold1"'],
-        ["33% 33% 33%", "50% 50%", '"fold2 fold3 fold1" "fold4 fold5 fold1"'],
-        ["33% 33% 33%", "33% 33% 33%", '"fold2 fold2 fold1" "fold3 fold4 fold1" "fold5 fold6 fold1"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold2 fold3 fold4 fold1" "fold5 fold6 fold7 fold1"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold2 fold3 fold4 fold1" "fold5 fold6 fold7 fold8"']
+        ["100%", "100%", '"win1"'],
+        ["50% 50%", "100%", '"win2 win1"'],
+        ["50% 50%", "50% 50%", '"win2 win1" "win3 win1"'],
+        ["50% 50%", "33% 33% 33%", '"win2 win1" "win3 win1" "win4 win1"'],
+        ["33% 33% 33%", "50% 50%", '"win2 win3 win1" "win4 win5 win1"'],
+        ["33% 33% 33%", "33% 33% 33%", '"win2 win2 win1" "win3 win4 win1" "win5 win6 win1"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win2 win3 win4 win1" "win5 win6 win7 win1"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win2 win3 win4 win1" "win5 win6 win7 win8"']
     ],
     [ // left
-        ["100%", "100%", '"fold1"'],
-        ["50% 50%", "100%", '"fold1 fold2"'],
-        ["50% 50%", "50% 50%", '"fold1 fold2" "fold1 fold3"'],
-        ["50% 50%", "33% 33% 33%", '"fold1 fold2" "fold1 fold3" "fold1 fold4"'],
-        ["33% 33% 33%", "50% 50%", '"fold1 fold2 fold3" "fold1 fold4 fold5"'],
-        ["33% 33% 33%", "33% 33% 33%", '"fold1 fold2 fold2" "fold1 fold3 fold4" "fold1 fold5 fold6"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold1 fold5 fold6 fold7"'],
-        ["25% 25% 25% 25%", "50% 50%", '"fold1 fold2 fold3 fold4" "fold5 fold6 fold7 fold8"']
+        ["100%", "100%", '"win1"'],
+        ["50% 50%", "100%", '"win1 win2"'],
+        ["50% 50%", "50% 50%", '"win1 win2" "win1 win3"'],
+        ["50% 50%", "33% 33% 33%", '"win1 win2" "win1 win3" "win1 win4"'],
+        ["33% 33% 33%", "50% 50%", '"win1 win2 win3" "win1 win4 win5"'],
+        ["33% 33% 33%", "33% 33% 33%", '"win1 win2 win2" "win1 win3 win4" "win1 win5 win6"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win2 win3 win4" "win1 win5 win6 win7"'],
+        ["25% 25% 25% 25%", "50% 50%", '"win1 win2 win3 win4" "win5 win6 win7 win8"']
     ]
 ]
 
@@ -59,6 +59,7 @@ function setGridStyle(imgId) {
 }
 
 function doGrid() {
+    setFoldersCookies();
     switch (folders.length) {
         case 1: 
             changeGrid();

@@ -9,6 +9,10 @@
     width: 100%;
 }
 
+.contentDiv th {
+    text-align: left;
+}
+
 .contentDiv td {
     height: 32px;
 }

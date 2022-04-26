@@ -4,31 +4,37 @@ async function openFolder(path) {
         return;
     }
 
-    var div = await getHtml("folder", "", "openFoldersDiv", "openFolder");
+    var div = await getHtml("window", "", "openFoldersDiv", "openFolder");
     if (div == null) {
         showAlert("ERROR", "Error while creating div");
         return;
-    }
+    } else {
+        var id = 0;
+        while (document.getElementById("windowDiv" + id) != null) id++;
 
-    var id = 0;
-    while (document.getElementById("folderDiv" + id) != null) id++;
+        var divId = "windowDiv" + id;
 
-    var divId = "folderDiv" + id;
+        div.setAttribute("id", divId);
 
-    div.setAttribute("id", divId);
-
-    folders.push(
-        {
-            "PATH": path,
-            "DIV_ID": divId
+        var div = await getHtml("folder", "", divId, "openFolderContent");
+        if (div == null) {
+            showAlert("ERROR", "Error while creating div");
+            return;
         }
-    );
-    renameGridAreas();
-    doGrid();
 
-    buildFolder(divId);
-    buildTree(divId);
-    createFavorites(divId);
+        folders.push(
+            {
+                "PATH": path,
+                "DIV_ID": divId
+            }
+        );
+        renameGridAreas();
+        doGrid();
+    
+        buildFolder(divId);
+        buildTree(divId);
+        createFavorites(divId);
+    }
 }
 
 function closeTab(e) {
@@ -49,7 +55,7 @@ function closeTab(e) {
 function renameGridAreas() {
     for (var i = 0; i < folders.length; i++) {
         var fold = document.getElementById(folders[i].DIV_ID);
-        fold.style.gridArea = "fold" + (i + 1);
+        fold.style.gridArea = "win" + (i + 1);
     }
 }
 
@@ -83,7 +89,7 @@ async function openNewTab() {
 function findParent(self) {
     var parent = self.parentNode;
 
-    while (!parent.id.startsWith("folderDiv")) {
+    while (!parent.id.startsWith("windowDiv")) {
         parent = parent.parentNode;
     }
 

@@ -1,7 +1,7 @@
 var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
-var debug = false;
+var debug = true;
 
 var alertTime = 3000;
 
