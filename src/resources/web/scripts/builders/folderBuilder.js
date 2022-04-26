@@ -63,4 +63,14 @@ async function buildFolder(divId) {
     else {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
+    setFoldersCookies();
+}
+
+function setFoldersCookies() {
+    var foldersString = "";
+    for (var i = 0; i < folders.length; i++) {
+        foldersString += folders[i].PATH + ",";
+    }
+    foldersString = foldersString.substring(0, foldersString.length - 1);
+    setCookie("openFolders", foldersString, 300);
 }

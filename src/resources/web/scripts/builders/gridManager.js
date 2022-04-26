@@ -58,17 +58,7 @@ function setGridStyle(imgId) {
     doGrid();
 }
 
-function setGridCookies() {
-    var foldersString = "";
-    for (var i = 0; i < folders.length; i++) {
-        foldersString += folders[i].PATH + ",";
-    }
-    foldersString = foldersString.substring(0, foldersString.length - 1);
-    setCookie("openFolders", foldersString, 300);
-}
-
 function doGrid() {
-    setGridCookies();
     switch (folders.length) {
         case 1: 
             changeGrid();
