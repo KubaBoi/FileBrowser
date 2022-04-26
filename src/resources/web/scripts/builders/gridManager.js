@@ -89,7 +89,7 @@ function doGrid() {
 }
 
 function changeGrid() {
-    var openFoldersDiv = document.getElementById("openFoldersDiv");
+    var openFoldersDiv = document.getElementById("windowsDiv");
 
     openFoldersDiv.style.gridTemplateColumns = gridStyles[gridStyle][folders.length-1][0];
     openFoldersDiv.style.gridTemplateRows = gridStyles[gridStyle][folders.length-1][1];

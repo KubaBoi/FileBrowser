@@ -1,4 +1,4 @@
-.openFolders {
+.windows {
     display: grid;
     position: relative;
     top: 30px;
@@ -9,7 +9,7 @@
     grid-template-areas: "win1";
 }
 
-.openFolder {
+.window {
     position: relative;
     border: solid;
     height: inherit;
@@ -20,11 +20,11 @@
     margin-top: 10px;
     grid-area: win1;
 
-    animation-name: openFolderAnim;
+    animation-name: openWindowAnim;
     animation-duration: 2s;
 }
 
-.openFolder .winHeader {
+.window .winHeader {
     position: relative; 
     padding-top: 4px;
     width: 100%;
@@ -41,12 +41,12 @@
     overflow-y: scroll;
 }
 
-.openFolderContent {
+.windowContent {
     display: flex;
     height: inherit;
 }
 
-@keyframes openFolderAnim {
+@keyframes openWindowAnim {
     0% {border-color: var(--secondary-color); background-color: var(--secondary-color);}
     100% {border-color: var(--ultra-light-color); background-color: var(--light-color);}
 }

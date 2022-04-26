@@ -4,7 +4,7 @@ async function openFolder(path) {
         return;
     }
 
-    var div = await getHtml("window", "", "openFoldersDiv", "openFolder");
+    var div = await getHtml("window", "", "windowsDiv", "window");
     if (div == null) {
         showAlert("ERROR", "Error while creating div");
         return;
@@ -16,7 +16,7 @@ async function openFolder(path) {
 
         div.setAttribute("id", divId);
 
-        var div = await getHtml("folder", "", divId, "openFolderContent");
+        var div = await getHtml("folder", "", divId, "windowContent");
         if (div == null) {
             showAlert("ERROR", "Error while creating div");
             return;
