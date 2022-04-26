@@ -67,6 +67,8 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     MainController.ls(self, self.path, auth)
                 elif (path.startswith("/main/open")):
                     MainController.open(self, self.path, auth)
+                elif (path.startswith("/main/exists")):
+                    MainController.exists(self, self.path, auth)
                 elif (path.startswith("/main/file")):
                     MainController.file(self, self.path, auth)
                 elif (path.startswith("/main/favorites")):

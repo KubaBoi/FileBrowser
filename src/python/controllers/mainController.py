@@ -92,6 +92,24 @@ class MainController(cc):
 		response = cc.createResponse({'STATUS': 'ok'}, 200)
 		cc.sendResponse(server, response)
 
+	#@get /exists
+	@staticmethod
+	def exists(server, path, auth):
+		if (auth["role"] > 0):
+			Error.sendCustomError(server, "Unauthorized", 401)
+			return
+
+		args = cc.getArgs(path)
+
+		if (not cc.validateJson(['file'], args)):
+			Error.sendCustomError(server, "Wrong json structure", 400)
+			return
+
+		file = args["file"].replace("%20", " ")
+
+		response = cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
+		cc.sendResponse(server, response)
+
 	#TODO
 	#@get /file
 	@staticmethod
@@ -126,15 +144,3 @@ class MainController(cc):
 		cc.sendResponse(server, response)
 
 	# METHODS
-
-	def getSize(startPath = '.'):
-		return 0
-		total_size = 0
-		for dirpath, dirnames, filenames in os.walk(startPath):
-			for f in filenames:
-				fp = os.path.join(dirpath, f)
-				# skip if it is symbolic link
-				if not os.path.islink(fp):
-					total_size += os.path.getsize(fp)
-
-		return total_size

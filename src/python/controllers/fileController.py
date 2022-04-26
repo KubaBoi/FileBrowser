@@ -5,6 +5,7 @@ import os
 import sys
 from subprocess import Popen, PIPE
 import shutil
+from send2trash import send2trash
 
 from cheese.ErrorCodes import Error
 from cheese.resourceManager import ResMan
@@ -70,10 +71,12 @@ class FileController(cc):
             item = item.replace("%20", " ")
             if (os.path.isfile(item)):
                 shutil.copy2(item, folder)
-                os.remove(item)
+                if (os.path.exists(os.path.join(folder, ResMan.getFileName(item)))):
+                    os.remove(item)
             elif (os.path.isdir(item)):
                 shutil.copytree(item, os.path.join(folder, ResMan.getFileName(item)))
-                shutil.rmtree(item, onerror=FileController.onerror)
+                if (os.path.exists(os.path.join(folder, ResMan.getFileName(item)))):
+                    shutil.rmtree(item, onerror=FileController.onerror)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
@@ -121,10 +124,7 @@ class FileController(cc):
         files = args["FILES"]
 
         for file in files:
-            if (os.path.isfile(file)):
-                os.remove(file)
-            elif (os.path.isdir(file)):
-                shutil.rmtree(file, onerror=FileController.onerror)
+            send2trash(file)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)

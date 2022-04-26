@@ -103,3 +103,11 @@ async function properties() {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
 }
+
+function createNewFolder() {
+    console.log("NEW FOLDER");
+}
+
+function createNewFile() {
+    console.log("NEW FILE");
+}

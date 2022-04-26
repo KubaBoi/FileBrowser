@@ -43,6 +43,12 @@ function editPath(e) {
     
     if (path.startsWith("<")) {
         path = editInp.value;
+        if (path != "C:\\" && path.endsWith("\\")) {
+            path = path.substring(0, path.length - 1);
+        }
+        else if (path == "C:") {
+            path += "\\"
+        }
         changePath(parent.id, path);
         buildFolder(parent.id);
     }
