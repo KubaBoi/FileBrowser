@@ -1,7 +1,6 @@
 
 async function buildFolder(divId) {
     var parentDiv = document.getElementById(divId);
-    console.log(parentDiv);
     var folderTable = parentDiv.querySelector("#folderTable");
 
     var folder = getPath(divId);

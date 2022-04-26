@@ -1,7 +1,7 @@
 var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
-var debug = false;
+var debug = true;
 
 var alertTime = 3000;
 
@@ -23,7 +23,6 @@ async function start() {
     var response = await callEndpoint("GET", "/main/init");
     if (response.ERROR == null) {
         foldersCookies = getCookie("openFolders");
-        foldersCookies = "";
         if (foldersCookies == "") {
             openFolder(response.PATH, response.ROOT);
         }
