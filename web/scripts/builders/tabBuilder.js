@@ -59,6 +59,11 @@ function closeTab(e) {
     doGrid();
 }
 
+function reloadTab(e) {
+    var parent = findParent(e);
+    buildFolder(parent.id);
+}
+
 function renameGridAreas() {
     for (var i = 0; i < folders.length; i++) {
         var fold = document.getElementById(folders[i].DIV_ID);
