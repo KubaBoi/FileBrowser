@@ -8,7 +8,6 @@ from subprocess import Popen, PIPE
 import shutil
 from send2trash import send2trash
 
-from Cheese.ErrorCodes import Error
 from Cheese.resourceManager import ResMan
 from Cheese.cheeseController import CheeseController as cc
 
