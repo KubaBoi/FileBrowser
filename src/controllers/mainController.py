@@ -3,7 +3,6 @@
 
 import os
 
-from Cheese.ErrorCodes import Error
 from Cheese.resourceManager import ResMan
 from Cheese.appSettings import Settings
 from Cheese.cheeseController import CheeseController as cc
