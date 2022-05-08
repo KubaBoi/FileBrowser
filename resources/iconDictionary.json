@@ -36,5 +36,6 @@
     "ppk": "ppkIcon.png",
     "json": "jsonIcon.png",
     "py": "pyIcon.png",
+    "pyw": "pyIcon.png",
     "md": "markdownIcon.png"
 }
