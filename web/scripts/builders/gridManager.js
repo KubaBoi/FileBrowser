@@ -46,7 +46,7 @@ var gridStyles = [
 function setGridStyle(imgId) {    
     setCookie("gridType", imgId, 300);
 
-    var gridStylesImgs = document.body.getElementsByClassName("clickableImg");
+    var gridStylesImgs = document.body.getElementsByClassName("clickableBigImg");
     for (var i = 0; i < gridStylesImgs.length; i++) {
         var item = gridStylesImgs[i];
         item.classList.remove("chosenGridStyle");
