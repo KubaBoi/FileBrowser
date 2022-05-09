@@ -27,6 +27,20 @@ function openInTab() {
     }
 }
 
+function openInWeb() {
+    //if (itemForFloatMenu.classList.contains("contentDiv")) return;
+
+    var parent = findParent(itemForFloatMenu);
+    if (getUrl(parent.id) != "") return;
+    var path = getPath(parent.id);
+    var fileName = itemForFloatMenu.innerHTML;
+    if (itemForFloatMenu.classList.contains("contentDiv")) {
+        fileName = "";
+    }
+
+    window.open("http://localhost:7998/" + path + "\\" + fileName, '_blank');
+}
+
 function remove() {
     if (itemForFloatMenu.classList.contains("contentDiv")) return;
 
