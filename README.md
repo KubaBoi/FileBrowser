@@ -18,6 +18,12 @@
         - po rozdeleni do gridu ulozit pozice oken, zrusit grid a nastavit pozice oken z ulozenych hodnot?
 - [x] oznacit not found okna
 
+## Run without console
+
+:bangbang: Do not run in VS Code :bangbang:
+
+```python FileBrowserServer.pyw -nocons```
+
 ## kill process
 
 - netstat -ano | findstr :7999
