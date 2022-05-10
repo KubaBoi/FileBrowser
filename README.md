@@ -26,5 +26,6 @@
 
 ## kill process
 
-- netstat -ano | findstr :7999
-- taskkill /PID <PID> /F
+```netstat -ano | findstr :7999```
+
+```taskkill /PID pid /F```
