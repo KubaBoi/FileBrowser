@@ -54,7 +54,7 @@ async function buildFolder(divId) {
             while (document.getElementById("row" + id) != null) id++;
 
             addRow(folderTable, [
-                {"text": "<img src='images/" + item.IMAGE + "'>", "attributes": [
+                {"text": "<img class='iconImg' src='images/" + item.IMAGE + "'>", "attributes": [
                     {"name": "class", "value": "iconCell"}
                 ]},
                 {"text": item.NAME, "attributes": [

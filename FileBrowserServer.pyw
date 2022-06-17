@@ -5,8 +5,11 @@ import sys
 import win32gui, win32con
 import threading
 import subprocess
+import requests
+import time
 
 from Cheese.cheese import CheeseBurger
+from Cheese.appSettings import Settings
 from Cheese.resourceManager import ResMan
 
 """
@@ -24,6 +27,21 @@ def runFileServer():
 
 if __name__ == "__main__":
     CheeseBurger.init()
+
+    i = 0
+    while i < 10:
+        try:
+            req = {
+                "name": Settings.name,
+                "port": Settings.port,
+                "icon": "/images/icon256.png",
+                "color": "FF0000"
+            }
+            requests.post(f"http://localhost/services/doYouKnowMe", json=req)
+            break
+        except:
+            i += 1
+            time.sleep(1)
 
     x = threading.Thread(target=runFileServer)
     x.start()

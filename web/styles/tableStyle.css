@@ -14,7 +14,21 @@
 }
 
 .contentDiv td {
-    height: 32px;
+    height: 20px;
+}
+
+.sizeCell {
+    font-size: 10px;
+    width: 50px;
+}
+
+.iconCell {
+    width: 35px;
+}
+
+.iconImg {
+    width: 20px;
+    height: 20px;
 }
 
 .folder:hover, .file:hover {
@@ -34,13 +48,4 @@
 .dragOver {
     border: solid;
     border-color: black;
-}
-
-.sizeCell {
-    font-size: 10px;
-    width: 50px;
-}
-
-.iconCell {
-    width: 35px;
 }
