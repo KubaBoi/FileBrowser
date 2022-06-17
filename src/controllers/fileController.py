@@ -56,6 +56,9 @@ class FileController(cc):
                 req = requests.get(f"{origin['URL']}/file/download?file={item}")
                 if (req.status_code != 200):
                     return cc.createResponse(json.loads(req.text), req.status_code)
+                else:
+                    with open(ResMan.joinPath(folder, ResMan.getFileName(item)), "wb") as f:
+                        f.write(req.content)
 
         return cc.createResponse({"STATUS": "ok"}, 200)
 
@@ -93,6 +96,9 @@ class FileController(cc):
                 req = requests.get(f"{origin['URL']}/file/download?file={item}")
                 if (req.status_code != 200):
                     return cc.createResponse(json.loads(req.text), req.status_code)
+                else:
+                    with open(ResMan.joinPath(folder, ResMan.getFileName(item)), "wb") as f:
+                        f.write(req.text)
 
         return cc.createResponse({"STATUS": "ok"}, 200)
         
