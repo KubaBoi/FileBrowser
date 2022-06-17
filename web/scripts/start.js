@@ -5,7 +5,7 @@ var debug = false;
 
 var alertTime = 3000;
 
-var remoteUrl = "http://frogie.cz:7999";
+var remoteUrl = "http://localhost:7997";
 
 var startArray = [
     "menu",

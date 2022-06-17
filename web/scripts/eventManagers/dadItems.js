@@ -9,7 +9,7 @@ function dadItemsStart(e) {
         
         var parent = findParent(item);
         var path = getPath(parent.getAttribute("id"));
-        copiedPaths.push(path + "\\" + item.innerHTML);
+        copiedPaths.push(path + "\\" + item.innerHTML + "|" + parent.id);
     }
     e.dataTransfer.setData("text/plain", copiedPaths);
 }
@@ -18,7 +18,15 @@ async function dadItemsDrop(e) {
     levitation = 0;
     var pastePath;
 
-    copiedPaths = e.dataTransfer.getData("text/plain").split(",");
+    cpP = e.dataTransfer.getData("text/plain").split(",");
+    copiedPaths = [];
+    origins = [];
+    for (let i = 0; i < cpP.length; i++) {
+        cp = cpP[i].split("|");
+        copiedPaths.push(cp[0]);
+        origins.push(getFolderObject(cp[1]));
+    } 
+    
     var parent = findParent(e.target);
     var path = getPath(parent.getAttribute("id"));
 
@@ -36,13 +44,14 @@ async function dadItemsDrop(e) {
         return;
     }
 
-    var endpoint = "move";
+    let folder = getFolderObject(parent.id);
 
+    var endpoint = "move";
     if (!window.event.ctrlKey) {
         endpoint = "copy";
     }
 
-    var response = await callEndpoint("POST", "/file/" + endpoint, prepareCopyRequest(pastePath));
+    var response = await callEndpoint("POST", "/file/" + endpoint, prepareCopyRequest(pastePath, folder, origins));
     if (response.ERROR != null) {
         showWrongAlert("ERROR", response.ERROR, alertTime);
     }
@@ -84,9 +93,11 @@ function dadItemsLeave(e) {
     e.target.classList.remove("dragOver");
 }
 
-function prepareCopyRequest(pastePath) {
+function prepareCopyRequest(pastePath, folder, origins) {
     return {
         "PATH": pastePath,
-        "ITEMS": copiedPaths
+        "ITEMS": copiedPaths,
+        "FOLDER": folder,
+        "ORIGINS": origins
     }
 }

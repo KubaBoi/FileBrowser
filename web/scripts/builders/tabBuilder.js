@@ -71,6 +71,13 @@ function renameGridAreas() {
     }
 }
 
+function getFolderObject(divId) {
+    for (var i = 0; i < folders.length; i++) {
+        if (folders[i].DIV_ID == divId) return folders[i];
+    }
+    return null;
+}
+
 function getPath(divId) {
     for (var i = 0; i < folders.length; i++) {
         if (folders[i].DIV_ID == divId) return folders[i].PATH;
