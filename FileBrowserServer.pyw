@@ -30,20 +30,16 @@ def runFileServer():
 if __name__ == "__main__":
     CheeseBurger.init()
 
-    i = 0
-    while i < 10:
-        try:
-            req = {
-                "name": Settings.name,
-                "port": Settings.port,
-                "icon": "/images/folder.png",
-                "color": "FF0000"
-            }
-            requests.post(f"http://localhost/services/doYouKnowMe", json=req)
-            break
-        except:
-            i += 1
-            time.sleep(1)
+    try:
+        req = {
+            "name": Settings.name,
+            "port": Settings.port,
+            "icon": "/images/folder.png",
+            "color": "FF0000"
+        }
+        requests.post(f"http://localhost/services/doYouKnowMe", json=req)
+    except:
+        pass
 
     i = 0
     while i < 10:

@@ -323,7 +323,7 @@ class FileController(cc):
 
                 Logger.info(f"Uploading file {name} to {url} as {urlData}")
 
-                uploader = Uploader(item, folderObj, 512)
+                uploader = Uploader(item, folderObj, 48)
 
                 try:
                     req = requests.post(f"{url}/file/upload{urlData}", data=uploader)
