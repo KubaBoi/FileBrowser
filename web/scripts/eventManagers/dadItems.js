@@ -51,11 +51,17 @@ async function dadItemsDrop(e) {
         endpoint = "copy";
     }
 
+    if (parent.id.search("Remote") != -1) {
+        startChecking(parent);
+    }
+
     var response = await callEndpoint("POST", "/file/" + endpoint, prepareCopyRequest(pastePath, folder, origins));
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        stopChecking(parent);
+        showErrorAlert(response.ERROR, alertTime);
     }
     else {
+        stopChecking(parent);
         buildFolder(parent.id);
     }
 }

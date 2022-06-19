@@ -115,7 +115,7 @@ async function openNewTab() {
         openFolder(response.PATH, response.ROOT);
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -125,7 +125,7 @@ async function openNewRemoteTab() {
         openFolder(response.PATH, response.ROOT, remoteUrl);
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 

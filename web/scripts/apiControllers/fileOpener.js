@@ -5,7 +5,7 @@ async function openFile(e, file) {
 
     var response = await callEndpoint("GET", `/main/open?path=${path}\\${file}`);
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -31,7 +31,7 @@ async function openCmd(e) {
 
     var response = await callEndpoint("GET", `/main/cmd?path=${path}`);
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -42,6 +42,6 @@ async function openCode(e) {
 
     var response = await callEndpoint("GET", `/main/code?path=${path}`);
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }

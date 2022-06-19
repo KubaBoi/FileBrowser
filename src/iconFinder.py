@@ -1,5 +1,6 @@
 import json
 import os
+import requests
 
 from PIL import Image
 
@@ -33,7 +34,7 @@ class IconFinder:
 
     def findExe(self, file):
         iconPath = os.path.join("exes", ResMan.getFileName(file) + ".png")
-        absPath = os.path.join(ResMan.web(), "images", iconPath)
+        absPath = ResMan.web("images", iconPath)
 
         if (os.path.exists(absPath)):
             return iconPath
@@ -67,5 +68,10 @@ class IconFinder:
 
         img.putdata(newData)
         img.save(absPath, "PNG")
+
+        with open(absPath, "rb") as f:
+            data = f.read()
+        
+        req = requests.post(f"http://frogie.cz:7997/main/syncIcons?path={iconPath}", data=data)
 
         return iconPath

@@ -1,7 +1,7 @@
 var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
-var debug = false;
+var debug = true;
 
 var alertTime = 3000;
 
@@ -42,7 +42,7 @@ async function start() {
         else setGridStyle(gridType);
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 

@@ -1,5 +1,9 @@
 <!-- HEADER -->
 <div id="winHeader" class="winHeader" draggable="true">
+    <span id="uploadSpan" class="uploadSpan">
+        <div id="uploadLoader" class="uploadLoader"></div>
+        <label id="uploadSpanLabel">Uploading</label>
+    </span>
     <img src="images/gridIcons/cloudos.png" title="This is remote directory" class="clickableBigImg" onclick="reloadTab(this)">
     <label id="remoteUrlLabel" style="float: top;"></label>
     <label id="folderPathLabel" class="dirPathLabel" onclick="editPathDialog(this)"></label>

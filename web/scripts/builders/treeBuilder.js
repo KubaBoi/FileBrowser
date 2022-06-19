@@ -13,7 +13,7 @@ async function buildTree(divId) {
         createLis(treeTable, treeItems, divId);
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -103,6 +103,6 @@ async function createFavorites(divId) {
         }
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }

@@ -7,7 +7,7 @@ async function openAs() {
 
     var response = await callEndpoint("GET", `/file/openAs?path=${path}\\${itemForFloatMenu.innerHTML}`);
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -121,7 +121,7 @@ async function rename() {
 
     var response = await callEndpoint("GET", `${getUrl(parent.id)}/file/rename?path=${path}\\${fileNameOriginal}&newName=${newName}`);
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 
     buildFolder(parent.id);
@@ -136,7 +136,7 @@ async function properties() {
 
     var response = await callEndpoint("GET", `/file/properties?path=${path}\\${itemForFloatMenu.innerHTML}`);
     if (response.ERROR != null) {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -152,7 +152,7 @@ async function createNewFolder() {
         setTimeout(function() {evokeRenaming(newFolderName, parent);}, 500);
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 
@@ -168,7 +168,7 @@ async function createNewFile() {
         setTimeout(function() {evokeRenaming(newFileName, parent, "file");}, 500);
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
 }
 

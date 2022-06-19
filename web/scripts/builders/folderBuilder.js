@@ -73,7 +73,7 @@ async function buildFolder(divId) {
         }
     }
     else {
-        showWrongAlert("ERROR", response.ERROR, alertTime);
+        showErrorAlert(response.ERROR, alertTime);
     }
     setFoldersCookies();
 }

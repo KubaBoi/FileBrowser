@@ -1,0 +1,34 @@
+.uploadSpan {
+    position: absolute;
+    left: 30px;
+    top: 0px;
+    padding: 5px;
+    padding-top: 1px;
+    margin: 5px;
+    margin-top: 0;
+    display: flex;
+    visibility: hidden;
+}
+
+.uploadLoader {
+    border: 2px solid var(--light-color);
+    border-top: 2px solid var(--main-text-color); 
+    border-bottom: 2px solid var(--main-text-color);
+    border-radius: 50%;
+
+    margin-right: 5px;
+    width: 7px;
+    height: 7px;
+
+    animation: spin 2s linear infinite;
+}
+
+.transfered {
+    color: var(--ok-color);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
+}
