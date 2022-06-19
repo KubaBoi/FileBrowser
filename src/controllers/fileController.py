@@ -223,6 +223,11 @@ class FileController(cc):
         open(os.path.join(folder, actFolderName), "w")
 
         return cc.createResponse({"FILE": actFolderName}, 200)
+
+    #@post /killUpload;
+    @staticmethod
+    def killUpload(server, path, auth):
+        pass
         
     #@get /uploadStatus;
     @staticmethod
@@ -293,10 +298,17 @@ class FileController(cc):
                 Logger.info(f"Making cloud directory: {pth}, {name}")
                 FileController.changeStatus(f"Making directory {name}", folderObj)
 
-                req = requests.get(f"{url}/file/mkdir?path={pth}&name={name}")
+                req = requests.get(f"{url}/main/exists?path={ResMan.joinPath(pth, name)}")
                 if (req.status_code != 200):
                     Logger.fail(req.text)
                     return cc.createResponse(json.loads(req.text), req.status_code)
+                ex = json.loads(req.text)
+
+                if (not ex["EXISTS"]):
+                    req = requests.get(f"{url}/file/mkdir?path={pth}&name={name}")
+                    if (req.status_code != 200):
+                        Logger.fail(req.text)
+                        return cc.createResponse(json.loads(req.text), req.status_code)
 
                 itms = []
                 for root, dirs, files in os.walk(item):
@@ -311,12 +323,16 @@ class FileController(cc):
 
                 Logger.info(f"Uploading file {name} to {url} as {urlData}")
 
-                uploader = Uploader(item, folderObj, 1024)
+                uploader = Uploader(item, folderObj, 512)
 
-                req = requests.post(f"{url}/file/upload{urlData}", data=uploader)
-                if (req.status_code != 200):
-                    Logger.fail(req.text)
-                    return cc.createResponse(json.loads(req.text), req.status_code)
+                try:
+                    req = requests.post(f"{url}/file/upload{urlData}", data=uploader)
+                    if (req.status_code != 200):
+                        Logger.fail(req.text)
+                        FileController.changeStatus("Killed", folderObj)
+                        return cc.createResponse(json.loads(req.text), req.status_code)
+                except Exception as e:
+                    return cc.createResponse({"ERROR": str(e)}, 500)
 
         return cc.createResponse({"STATUS": "ok"}, 200)
 
@@ -365,12 +381,13 @@ class Uploader:
                     break
                 self.readsofar += len(data)
                 percent = self.readsofar * 1e2 / self.totalsize
-                yield data
+                sys.stderr.write("\r{percent:3.0f}%".format(percent=percent))
                 delay = time.time() - tm
                 speed = 0
                 if (delay != 0):
                     speed = self.readsofar//delay
                 FileController.changeStatus(ResMan.getFileName(self.filename), self.session, len(data), percent, speed)
+                yield data
 
     def __len__(self):
         return self.totalsize

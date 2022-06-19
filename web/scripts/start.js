@@ -1,7 +1,7 @@
 var folders = [];
 var chosenItems = [];
 var copiedPaths = [];
-var debug = true;
+var debug = false;
 
 var alertTime = 3000;
 
@@ -33,7 +33,7 @@ async function start() {
             foldersCookiesArray = foldersCookies.split(",");
             for (var i = 0; i < foldersCookiesArray.length; i++) {
                 foldRoot = foldersCookiesArray[i].split("|");
-                openFolder(foldRoot[0], foldRoot[1], foldRoot[2]);
+                openFolder(foldRoot[0], foldRoot[1], foldRoot[2], foldRoot[3]);
             }
         }
 

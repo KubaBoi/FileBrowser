@@ -57,11 +57,9 @@ async function dadItemsDrop(e) {
 
     var response = await callEndpoint("POST", "/file/" + endpoint, prepareCopyRequest(pastePath, folder, origins));
     if (response.ERROR != null) {
-        stopChecking(parent);
         showErrorAlert(response.ERROR, alertTime);
     }
     else {
-        stopChecking(parent);
         buildFolder(parent.id);
     }
 }

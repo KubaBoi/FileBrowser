@@ -31,7 +31,8 @@ async function openFolder(path, root, url="") {
                 "PATH": path,
                 "DIV_ID": divId,
                 "ROOT": root,
-                "URL": url
+                "URL": url,
+                "SESSION": null
             }
         );
         
@@ -41,6 +42,10 @@ async function openFolder(path, root, url="") {
         buildFolder(divId);
         buildTree(divId);
         createFavorites(divId);
+
+        if (url != "") {
+            startChecking(document.getElementById(divId));
+        }
     }
 }
 

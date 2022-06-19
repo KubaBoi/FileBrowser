@@ -81,7 +81,7 @@ async function buildFolder(divId) {
 function setFoldersCookies() {
     var foldersString = "";
     for (var i = 0; i < folders.length; i++) {
-        foldersString += folders[i].PATH + "|" + folders[i].ROOT + "|" + folders[i].URL + ",";
+        foldersString += folders[i].PATH + "|" + folders[i].ROOT + "|" + folders[i].URL + "|" + folders[i].SESSION + ",";
     }
     foldersString = foldersString.substring(0, foldersString.length - 1);
     setCookie("openFolders", foldersString, 300);
