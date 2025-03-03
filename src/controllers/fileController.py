@@ -10,6 +10,8 @@ import json
 from subprocess import Popen, PIPE
 import shutil
 from send2trash import send2trash
+import ftplib
+import progressbar
 
 from Cheese.resourceManager import ResMan
 from Cheese.cheeseController import CheeseController as cc
@@ -243,7 +245,7 @@ class FileController(cc):
 
 
         session = FileController.uploadStatusDic[windowId]
-        if (session[0] == "Upload done"):
+        if (session[0] == "Upload done" or session[0] == "Killed"):
             resp = cc.createResponse({"STATUS": session[0], "SIZE": ResMan.convertBytes(session[2])}, 200)
             FileController.uploadStatusDic.pop(windowId)
             return resp
@@ -258,7 +260,8 @@ class FileController(cc):
                 "TRANSFERED": ResMan.convertBytes(session[1]),
                 "SIZE": ResMan.convertBytes(session[2]),
                 "PERCENT": session[3],
-                "SPEED": ResMan.convertBytes(session[4])
+                "SPEED": ResMan.convertBytes(session[4]),
+                "EST": int(session[5])
             }, 200)
 
 
@@ -269,7 +272,12 @@ class FileController(cc):
         obj = FileController.uploadStatusDic[folderObj["DIV_ID"]]
         transfered += obj[1]
 
-        FileController.uploadStatusDic[folderObj["DIV_ID"]] = (comment, int(transfered), int(obj[2]), int(percent), uploadTime)
+        est = 0
+        if (uploadTime != 0):
+            remain = obj[2] - obj[1]
+            est = remain / uploadTime
+
+        FileController.uploadStatusDic[folderObj["DIV_ID"]] = (comment, int(transfered), int(obj[2]), int(percent), uploadTime, est)
 
     @staticmethod
     def uploadToCloud(path, items, folderObj):
@@ -277,11 +285,11 @@ class FileController(cc):
             raise NotRemote()
 
         totalSize = 0
-        FileController.uploadStatusDic[folderObj["DIV_ID"]] = ("Calculating size...", 0, 0, 0, 0)
+        FileController.uploadStatusDic[folderObj["DIV_ID"]] = ("Calculating size...", 0, 0, 0, 0, 0)
         for item in items:
             totalSize += FileController.getSize(item)
 
-        FileController.uploadStatusDic[folderObj["DIV_ID"]] = ("Uploading...", 0, totalSize, 0, 0)
+        FileController.uploadStatusDic[folderObj["DIV_ID"]] = ("Uploading...", 0, totalSize, 0, 0, 0)
 
         resp = FileController.uploadFileToCloud(path, items, folderObj)
         FileController.changeStatus("Upload done", folderObj)
@@ -319,22 +327,24 @@ class FileController(cc):
                     break
                 FileController.uploadFileToCloud(ResMan.joinPath(path, name), itms, folderObj)
             else:
-                urlData = f"?name={name}&path={path}"
 
-                Logger.info(f"Uploading file {name} to {url} as {urlData}")
-
-                uploader = Uploader(item, folderObj, 48)
+                pth = ResMan.joinPath(ResMan.getRelativePathFrom(path, '/root/FrogieCloudos/'), name).replace("\\", "/")
+                Logger.info(f"Uploading file {pth}")
+                uploadTracker = FtpUploadTracker(FileController.getSize(item), name, folderObj)
 
                 try:
-                    req = requests.post(f"{url}/file/upload{urlData}", data=uploader)
-                    if (req.status_code != 200):
-                        Logger.fail(req.text)
-                        FileController.changeStatus("Killed", folderObj)
-                        return cc.createResponse(json.loads(req.text), req.status_code)
-                except Exception as e:
-                    return cc.createResponse({"ERROR": str(e)}, 500)
+                    session = ftplib.FTP("frogie.cz","user","12345")
+                    file = open(item, "rb")
+                    session.storbinary(f"STOR {pth}", file, FileController.maxBytes, uploadTracker.handle)     # send the file
+                    file.close()                                    # close file and FTP
+                    session.quit()
+                except:
+                    FileController.changeStatus("Killed", folderObj)
+                    raise InternalServerError("Cannot access the cloud server")
 
         return cc.createResponse({"STATUS": "ok"}, 200)
+
+    maxBytes = 10000
 
     @staticmethod
     def getSize(start_path="."):
@@ -362,33 +372,27 @@ class FileController(cc):
             raise
 
 
-class Uploader:
-
-    def __init__(self, filename, session, chunksize=1 << 13):
-        self.filename = filename
-        self.chunksize = chunksize
-        self.totalsize = os.path.getsize(filename)
-        self.readsofar = 0
-        self.session = session
-
-    def __iter__(self):
-        with open(self.filename, 'rb') as file:
-            tm = time.time()
-            while True:
-                data = file.read(self.chunksize)
-                if not data:
-                    sys.stderr.write("\n")
-                    break
-                self.readsofar += len(data)
-                percent = self.readsofar * 1e2 / self.totalsize
-                sys.stderr.write("\r{percent:3.0f}%".format(percent=percent))
-                delay = time.time() - tm
-                speed = 0
-                if (delay != 0):
-                    speed = self.readsofar//delay
-                FileController.changeStatus(ResMan.getFileName(self.filename), self.session, len(data), percent, speed)
-                yield data
-
-    def __len__(self):
-        return self.totalsize
+class FtpUploadTracker:
+    sizeWritten = 0
+    totalSize = 0
+    lastShownPercent = 0
+    
+    def __init__(self, totalSize, fileName, folderObj):
+        self.totalSize = totalSize
+        self.folderObj = folderObj
+        self.fileName = fileName
+        self.tm = time.time()
+        
+    def handle(self, block):
+        self.sizeWritten += len(block)
+        percentComplete = round((self.sizeWritten / self.totalSize) * 100)
+        
+        if (self.lastShownPercent != percentComplete):
+            self.lastShownPercent = percentComplete
+            delay = time.time() - self.tm
+            speed = 0
+            if (delay != 0):
+                speed = self.sizeWritten//delay
+            FileController.changeStatus(self.fileName, self.folderObj, len(block), percentComplete, speed)
+            sys.stderr.write("\r{percent:3.0f}%".format(percent=percentComplete))
 

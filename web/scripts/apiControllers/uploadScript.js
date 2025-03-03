@@ -21,6 +21,8 @@ function stopChecking(session, clear=true) {
     if (clear) {
         let spn = getUploadSpan(session.WINDOW);
         spn.style.visibility = "hidden";
+        let lbl = getUploadLabel(session.WINDOW);
+        lbl.innerHTML = "Checking sessions...";
     }
     else {
         let lbl = getUploadLabel(session.WINDOW);
@@ -52,17 +54,12 @@ async function checkStatus() {
                 }
                 let lbl = getUploadLabel(session.WINDOW);
                 let status = response.STATUS;
-                if (status.length > 15) {
-                    end = status.split(".");
-                    if (end.length > 1) {
-                        end = " ." + end[end.length-1];
-                    }
-                    else end = "";
-                    status = status.substring(0, 14) + "..." + end;
+                if (status.length > 25) {
+                    status = status.substring(0, 14) + "...";
                 }
 
-                lbl.innerHTML = `${status} ${response.PERCENT}% Total: <label class="transfered">${response.TRANSFERED}</label> / ${response.SIZE} - ${response.SPEED}/s`;
-
+                lbl.innerHTML = `${status} ${response.PERCENT}% Total: <label class="transfered">${response.TRANSFERED}</label> / ${response.SIZE} - ${response.SPEED}/s - EST: ${formatTime(response.EST)}`;
+                lbl.title = response.STATUS;
                 session.OLD_COMM = response.STATUS;
                 setTimeout(checkStatus, 1000);
             }
